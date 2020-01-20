@@ -18,7 +18,7 @@ namespace PointSaleSystemWeb.admin
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader dr;
-        string sqlcon, username, password, hashPhone, hashPassword, role, status;
+        string sqlcon, username, password, hashPassword, role;
 
         protected void Page_Load(object sender, EventArgs e)
         {
