@@ -59,7 +59,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-horizontal bordered-row">
                                                     <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Category:</label>
+                                                        <label class="col-sm-4 control-label">Shop Name:</label>
                                                         <div class="col-sm-6">
                                                             <asp:TextBox ID="txtShopName" CssClass="form-control" placeholder="Enter Shop Name" BackColor="White" runat="server" />
                                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ForeColor="Red" runat="server"

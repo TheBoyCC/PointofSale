@@ -137,20 +137,20 @@ namespace PointSaleSystemWeb.manager
                     tableData += "      <td class=" + "'text-center'" + ">" + dr["username"].ToString() + "</td>";
                                    
                     tableData += "      <td class=" + "'text-center'" + ">";
-                    tableData += "          <a class=" + "'btn btn-primary'" + " href=edit-user.aspx?" + strURLData + " title=" + "'Edit'" + ">";
+                    tableData += "          <a class=" + "'btn btn-primary tooltip-button'" + " href=edit-user.aspx?" + strURLData + " data-placement=" + "top" + " title=" + "'Edit User'" + ">";
                     tableData += "              <i class=" + "'glyph-icon icon-pencil'" + "></i>";
                     tableData += "          </a>";
 
                     if (dr["Status"].ToString() == "1")
                     {
 
-                        tableData += "          <a class=" + "'btn btn-danger'" + " href=view-user.aspx?" + delURLData + " title=" + "'Deactivate'" + ">";
+                        tableData += "          <a class=" + "'btn btn-danger tooltip-button'" + " href=view-user.aspx?" + delURLData + " data-placement=" + "top" + " title=" + "'Deactivate User'" + ">";
                         tableData += "              <i class=" + "'glyph-icon icon-close'" + "></i>";
                         tableData += "          </a>";
                     }
                     else
                     {
-                        tableData += "          <a class=" + "'btn btn-success'" + " href=view-user.aspx?" + delURLData + " title=" + "'Activate'" + ">";
+                        tableData += "          <a class=" + "'btn btn-success tooltip-button'" + " href=view-user.aspx?" + delURLData + " data-placement=" + "top" + " title=" + "'Activate User'" + ">";
                         tableData += "              <i class=" + "'glyph-icon icon-check'" + "></i>";
                         tableData += "          </a>";
                     }
@@ -187,9 +187,9 @@ namespace PointSaleSystemWeb.manager
         }
 
         //SHOW MODAL METHOD
-        private void showModal(string orderStatus)
+        private void showModal(string userStatus)
         {
-            if (orderStatus == "0")
+            if (userStatus == "0")
             {
                 divModal.Attributes["class"] = "modal-header bg-green";
                 btnModYes.Attributes["class"] = "btn btn-success";
@@ -199,7 +199,7 @@ namespace PointSaleSystemWeb.manager
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Pop", "ShowModal();", true);
                 lblStatus.Text = "1";
             }
-            else if (orderStatus == "1")
+            else if (userStatus == "1")
             {
                 divModal.Attributes["class"] = "modal-header bg-danger";
                 btnModYes.Attributes["class"] = "btn btn-danger";
@@ -220,10 +220,11 @@ namespace PointSaleSystemWeb.manager
             {
                 connection();
 
-                cmd = new MySqlCommand("UPDATE user SET status = @status WHERE user_id = '" + lblUserID.Text + "'" , con);
+                cmd = new MySqlCommand("UPDATE user SET status = @status, modified_date = @modified_date WHERE user_id = '" + lblUserID.Text + "'" , con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@status", userStatus);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
             }
@@ -240,6 +241,11 @@ namespace PointSaleSystemWeb.manager
         }
 
         protected void clsAlertError_ServerClick(object sender, EventArgs e)
+        {
+            Response.Redirect("~/manager/view-user.aspx");
+        }
+
+        protected void btnModClose_ServerClick(object sender, EventArgs e)
         {
             Response.Redirect("~/manager/view-user.aspx");
         }

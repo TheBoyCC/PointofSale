@@ -19,7 +19,11 @@ namespace PointSaleSystemWeb.manager
         MySqlCommand cmd;
         MySqlDataReader dr;
         string sqlcon, userID;
-        int minStockLevel;
+
+        private static int minStockLevel, quantityAvailable;
+        private static decimal unitPrice;
+        private static string delOrderURL;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             session();
@@ -27,9 +31,10 @@ namespace PointSaleSystemWeb.manager
             if (!IsPostBack)
             {
                 getQueryString();
+
                 readProducts();
             }
-
+            
             loadCart(lblOrderID.Text, lblSubOrderNum.Text);
         }
 
@@ -69,6 +74,7 @@ namespace PointSaleSystemWeb.manager
             return objEDQueryString.Decrypt(strQueryString, "r0b1nr0y");
         }
 
+               
         //GET DATA FROM URL
         private void getQueryString()
         {
@@ -102,7 +108,7 @@ namespace PointSaleSystemWeb.manager
                 //SET CSS CLASS AND INNER HTML OF ORDER STATUS LABEL
                 string spanData = "";
 
-                spanData += "<span class=" + "'bs-label label-yellow float-right'" + ">";
+                spanData += "<span class=" + "'bs-label label-yellow float-right tooltip-button'" + " data-placement=" + "top" + " title=" + "'Order Status'" + ">";
                 spanData += "PENDING";
                 spanData += "<i class=" + "'glyph-icon icon-database pad5L'" + "></i>";
                 spanData += "</span>";
@@ -112,7 +118,8 @@ namespace PointSaleSystemWeb.manager
                 divOrder.Visible = true;
             }
         }
-
+   
+        #region ADD ORDER DETAILS
         //READ PRODUCTS FROM DB
         private void readProducts()
         {
@@ -158,16 +165,16 @@ namespace PointSaleSystemWeb.manager
 
                 while (dr.Read())
                 {
-                    txtQuantity.Text = dr["quantity_available"].ToString();
-                    txtUnitPrice.Text = dr["selling_price"].ToString();
+                    quantityAvailable = Convert.ToInt32(dr["quantity_available"].ToString());
+                    unitPrice = Convert.ToDecimal(dr["selling_price"].ToString());
                     minStockLevel = Convert.ToInt32(dr["min_stock_level"].ToString());
                 }
             }
-            catch(Exception)
+            catch (Exception ex)
             {
                 alertErrorPanel.Visible = true;
                 alertErrorTitle.Text = Utils.errorTitle;
-                alertErrorMessage.Text = Utils.errorMessage;
+                alertErrorMessage.Text = ex.Message;
             }
             finally
             {
@@ -176,17 +183,40 @@ namespace PointSaleSystemWeb.manager
 
             lblExists.Visible = false;
 
+            //SET CSS AND INNER HTML FOR PRODUCT DETAIL DIV
+            string spanData = "";
+
+            spanData += "<div class=" + "'tile-header font-bold'" + ">";
+            spanData += ddlProduct.SelectedItem.Text;
+            spanData += "</div>";
+            spanData += "<div class=" + "'tile-content-wrapper pad20A'" + ">";
+            spanData += "<i class=" + "'glyph-icon icon-database'" + "></i>";
+            spanData += "<div class=" + "'tile-content'" + ">";
+            spanData += "<span>" + "Ȼ " + "</span>";
+            spanData += unitPrice.ToString("#,0.00");
+            spanData += "</div>";
+            spanData += "<small class=" + "'pad15T font-bold'" + ">";
+            spanData += quantityAvailable + " Available in Stock";
+            spanData += "</small>";
+            spanData += "</div>";
+
+            divProduct.InnerHtml = spanData;
+
+            //SHOW ORDER STATUS DIV
+            divProduct.Visible = true;
+
+
         }
 
         //CALCULATE COST OF PRODUCT
         private void calculateCost()
         {
-            if (txtQuantity.Text != String.Empty)
+            if (quantityAvailable.ToString() != String.Empty)
             {
-                double unitPrice = Convert.ToDouble(txtUnitPrice.Text);
+                double productPrice = Convert.ToDouble(unitPrice);
                 double orderQuantity = Convert.ToDouble(txtOrderQty.Text);
 
-                double cost = unitPrice * orderQuantity;
+                double cost = productPrice * orderQuantity;
 
                 txtCost.Text = cost.ToString("#,0.00");
             }
@@ -225,39 +255,80 @@ namespace PointSaleSystemWeb.manager
         //CREATE ORDER
         private void generateOrder(string customer)
         {
-            try
+            //CHECK IF CUSTOMER WAS CREATED
+            if (customer != String.Empty)
             {
-                connection();
-
-                cmd = new MySqlCommand("INSERT INTO `order` (order_number, order_date, customer_id, user_id) VALUES (@order_number, @order_date, @customer_id, @user_id)", con);
-                cmd.Connection = con;
-
-                cmd.Parameters.AddWithValue("@order_number", lblSubOrderNum.Text);
-                cmd.Parameters.AddWithValue("@order_date", Convert.ToDateTime(DateTime.Now.ToShortDateString()));
-                cmd.Parameters.AddWithValue("@customer_id", customer);
-                cmd.Parameters.AddWithValue("@user_id", Convert.ToInt32(userID));
-
-                cmd.ExecuteNonQuery();
-
-                cmd = new MySqlCommand("SELECT order_id FROM `order` ORDER BY order_id DESC LIMIT 1", con);
-                cmd.Connection = con;
-                dr = cmd.ExecuteReader();
-
-                while (dr.Read())
+                try
                 {
-                    lblOrderID.Text = dr["order_id"].ToString();
+                    connection();
+
+                    cmd = new MySqlCommand("INSERT INTO `order` (order_number, order_date, customer_id, user_id, modified_date) VALUES (@order_number, @order_date, @customer_id, @user_id, @modified_date)", con);
+                    cmd.Connection = con;
+
+                    cmd.Parameters.AddWithValue("@order_number", lblSubOrderNum.Text);
+                    cmd.Parameters.AddWithValue("@order_date", DateTime.Now.ToShortDateString());
+                    cmd.Parameters.AddWithValue("@customer_id", customer);
+                    cmd.Parameters.AddWithValue("@user_id", Convert.ToInt32(userID));
+                    cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
+
+                    cmd.ExecuteNonQuery();
+
+                    cmd = new MySqlCommand("SELECT order_id FROM `order` ORDER BY order_id DESC LIMIT 1", con);
+                    cmd.Connection = con;
+                    dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        lblOrderID.Text = dr["order_id"].ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    alertErrorPanel.Visible = true;
+                    alertErrorTitle.Text = Utils.errorTitle;
+                    alertErrorMessage.Text = ex.Message;
+                }
+                finally
+                {
+                    con.Close();
                 }
             }
-            catch (Exception)
+            else if (customer == String.Empty)
             {
-                alertErrorPanel.Visible = true;
-                alertErrorTitle.Text = Utils.errorTitle;
-                alertErrorMessage.Text = Utils.errorMessage;
+                try
+                {
+                    connection();
+
+                    cmd = new MySqlCommand("INSERT INTO `order` (order_number, order_date, user_id) VALUES (@order_number, @order_date, @user_id)", con);
+                    cmd.Connection = con;
+
+                    cmd.Parameters.AddWithValue("@order_number", lblSubOrderNum.Text);
+                    cmd.Parameters.AddWithValue("@order_date", Convert.ToDateTime(DateTime.Now.ToShortDateString()));
+                    cmd.Parameters.AddWithValue("@user_id", Convert.ToInt32(userID));
+
+                    cmd.ExecuteNonQuery();
+
+                    cmd = new MySqlCommand("SELECT order_id FROM `order` ORDER BY order_id DESC LIMIT 1", con);
+                    cmd.Connection = con;
+                    dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        lblOrderID.Text = dr["order_id"].ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    alertErrorPanel.Visible = true;
+                    alertErrorTitle.Text = Utils.errorTitle;
+                    alertErrorMessage.Text = ex.Message;
+                }
+                finally
+                {
+                    con.Close();
+                }
             }
-            finally
-            {
-                con.Close();
-            }
+
         }
 
         //SAVE ORDER ITEMS
@@ -267,7 +338,7 @@ namespace PointSaleSystemWeb.manager
             {
                 connection();
 
-                cmd = new MySqlCommand("INSERT INTO list_item (order_id, order_number, product_id, quantity_sold, price) VALUES (@order_id, @order_number, @product_id, @quantity_sold, @price)", con);
+                cmd = new MySqlCommand("INSERT INTO list_item (order_id, order_number, product_id, quantity_sold, price, modified_date) VALUES (@order_id, @order_number, @product_id, @quantity_sold, @price, @modified_date)", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@order_id", order);
@@ -275,10 +346,11 @@ namespace PointSaleSystemWeb.manager
                 cmd.Parameters.AddWithValue("@product_id", ddlProduct.SelectedItem.Value);
                 cmd.Parameters.AddWithValue("@quantity_sold", txtOrderQty.Text);
                 cmd.Parameters.AddWithValue("@price", txtCost.Text);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 alertErrorPanel.Visible = true;
                 alertErrorTitle.Text = Utils.errorTitle;
@@ -411,16 +483,18 @@ namespace PointSaleSystemWeb.manager
         }
 
         //CHECKOUT METHOD
-        private void checkOut()
+        private void checkOut(string completed)
         {
             try
             {
                 connection();
 
-                cmd = new MySqlCommand("UPDATE `order` SET total = @total WHERE order_id = '" + lblOrderID.Text + "'", con);
+                cmd = new MySqlCommand("UPDATE `order` SET total = @total, order_status = @order_status, modified_date = @modified_date WHERE order_id = '" + lblOrderID.Text + "' AND order_number = '" + lblSubOrderNum + "'", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@total", lblSum.Text);
+                cmd.Parameters.AddWithValue("@order_status", completed);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
             }
@@ -441,7 +515,7 @@ namespace PointSaleSystemWeb.manager
             string spanData = "";
 
             spanData += "<span class=" + "'bs-label label-success float-right'" + ">";
-            spanData += "COMPLETE";
+            spanData += completed;
             spanData += "<i class=" + "'glyph-icon icon-check-circle pad5L'" + "></i>";
             spanData += "</span>";
 
@@ -454,7 +528,7 @@ namespace PointSaleSystemWeb.manager
         }
 
         //CANCEL METHOD
-        private void cancel()
+        private void cancel(string cancelled)
         {
             try
             {
@@ -465,8 +539,12 @@ namespace PointSaleSystemWeb.manager
 
                 cmd.ExecuteNonQuery();
 
-                cmd = new MySqlCommand("DELETE FROM `order` WHERE order_id = '" + lblOrderID.Text + "'", con);
+                cmd = new MySqlCommand("UPDATE `order` SET total = @total, order_status = @order_status, modified_date = @modified_date WHERE order_id = '" + lblOrderID.Text + "' AND order_number = '" + lblSubOrderNum.Text + "'", con);
                 cmd.Connection = con;
+
+                cmd.Parameters.AddWithValue("@total", lblSum.Text);
+                cmd.Parameters.AddWithValue("@order_status", cancelled);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
             }
@@ -486,17 +564,17 @@ namespace PointSaleSystemWeb.manager
             //SET CSS CLASS AND INNER HTML OF ORDER STATUS LABEL
             string spanData = "";
 
-            spanData += "<span class=" + "'bs-label label-danger float-right'" + ">";
-            spanData += "CANCELLED";
-            spanData += "<i class=" + "'glyph-icon icon-check-remove pad5L'" + "></i>";
+            spanData += "<span class=" + "'bs-label label-danger float-right tooltip-button'" + ">";
+            spanData += cancelled;
+            spanData += "<i class=" + "'glyph-icon icon-times pad5L'" + "></i>";
             spanData += "</span>";
 
             divOrderStatus.InnerHtml = spanData;
 
 
-            alertSuccessPanel.Visible = true;
-            alertSuccessTitle.Text = "SUCCESS";
-            alertSuccessMessage.Text = "Order " + lblSubOrderNum.Text + " Cancelled Succesfully.";
+            alertErrorPanel.Visible = true;
+            alertErrorTitle.Text = "CANCELLED";
+            alertErrorMessage.Text = "Order " + lblSubOrderNum.Text + " Cancelled Succesfully.";
         }
 
         //ADD TO CART METHOD
@@ -528,7 +606,7 @@ namespace PointSaleSystemWeb.manager
                 //SET CSS CLASS AND INNER HTML OF ORDER STATUS LABEL
                 string spanData = "";
 
-                spanData += "<span class=" + "'bs-label label-yellow float-right'" + ">";
+                spanData += "<span class=" + "'bs-label label-yellow float-right tooltip-button'" + " data-placement=" + "top" + " title=" + "'Order Status'" + ">";
                 spanData += "PENDING";
                 spanData += "<i class=" + "'glyph-icon icon-database pad5L'" + "></i>";
                 spanData += "</span>";
@@ -568,47 +646,63 @@ namespace PointSaleSystemWeb.manager
             {
                 connection();
 
-                cmd = new MySqlCommand("SELECT list_item_id, product_id, product_name, quantity_sold, price FROM order_view WHERE order_id = '" + orderID + "' AND order_number = '" + orderNumber + "'", con);
+                cmd = new MySqlCommand("SELECT list_item_id, product_id, product_name, quantity_sold, price FROM list_item_view WHERE order_id = '" + orderID + "' AND order_number = '" + orderNumber + "'", con);
                 cmd.Connection = con;
                 dr = cmd.ExecuteReader();
 
                 //CHECK DATA READER FOR ROWS
-                if (dr.HasRows)
+
+                string tableData = "";
+                int i = 0;
+
+                while (dr.Read())
                 {
-                    string tableData = "";
-                    int i = 0;
+                    totalPrice.Items.Add(dr["price"].ToString());
 
-                    while (dr.Read())
-                    {
-                        totalPrice.Items.Add(dr["price"].ToString());
 
-                        //POPULATE TABLE WITH DATA FROM DB
-                        tableData += "<tr>";
-                        tableData += "<td class=" + "'text-center'" + ">" + dr["product_name"].ToString() + "</td>";
-                        tableData += "<td class=" + "'text-center'" + ">" + dr["quantity_sold"].ToString() + "</td>";
-                        tableData += "<td class=" + "'text-center'" + ">" + dr["price"].ToString() + "</td>";
+                    //POPULATE TABLE WITH DATA FROM DB
+                    tableData += "<tr>";
+                    tableData += "<td class=" + "'text-center'" + ">" + dr["product_name"].ToString() + "</td>";
+                    tableData += "<td class=" + "'text-center'" + ">" + dr["quantity_sold"].ToString() + "</td>";
+                    tableData += "<td class=" + "'text-center'" + ">" + dr["price"].ToString() + "</td>";
 
-                        //ENCRYPT DATA IN URL
+                    //ENCRYPT DATA IN URL
+                    string strURLData = EncryptQueryString(string.Format("itemID={0}&OrderID={1}&OrderNumber={2}&ProductID={3}&OrderQuantity={4}", dr["list_item_id"], lblOrderID.Text, lblSubOrderNum.Text,
+                        dr["product_id"].ToString(), dr["quantity_sold"].ToString()));
+                    string delURLData = EncryptQueryString(string.Format("itemID={0}&OrderID={1}&OrderNumber={2}&ProductName={3}", dr["list_item_id"], lblOrderID.Text, lblSubOrderNum.Text,
+                        dr["product_name"].ToString()));
 
-                        string strURLData = EncryptQueryString(string.Format("itemID={0}&OrderID={1}&OrderNumber={2}&ProductID={3}&OrderQuantity={4}", dr["list_item_id"], lblOrderID.Text, lblSubOrderNum.Text,
-                            dr["product_id"].ToString(), dr["quantity_sold"].ToString()));
-                        string delURLData = EncryptQueryString(string.Format("itemID={0}&OrderID={1}&OrderNumber={2}&ProductID={3}&OrderQuantity={4}", dr["list_item_id"], lblOrderID.Text, lblSubOrderNum.Text,
-                            dr["product_id"].ToString(), dr["product_name"].ToString()));
+                    tableData += "      <td class=" + "'text-center'" + ">";
+                    tableData += "          <a class=" + "'btn btn-primary tooltip-button'" + " href=edit-order-item.aspx?" + strURLData + " data-placement=" + "top" + " title=" + "'Edit Order Item'" + " > ";
+                    tableData += "              <i class=" + "'glyph-icon icon-pencil'" + "></i>";
+                    tableData += "          </a>";
+                    tableData += "          <a class=" + "'btn btn-danger tooltip-button'" + " href=delete-order-item.aspx?" + delURLData + " data-placement=" + "top" + " title=" + "'Delete Order Item'" + ">";
+                    tableData += "              <i class=" + "'glyph-icon icon-trash-o'" + "></i>";
+                    tableData += "          </a>";
+                    tableData += "      </td>";
 
-                        tableData += "      <td class=" + "'text-center'" + ">";
-                        tableData += "          <a class=" + "'btn btn-primary'" + " href=edit-order-item.aspx?" + strURLData + " title=" + "'Edit Order Item'" + ">";
-                        tableData += "              <i class=" + "'glyph-icon icon-pencil'" + "></i>";
-                        tableData += "          </a>";
-                        tableData += "          <a class=" + "'btn btn-danger'" + " href=delete-order-item.aspx?" + delURLData + " title=" + "'Delete Order Item'" + ">";
-                        tableData += "              <i class=" + "'glyph-icon icon-trash-o'" + "></i>";
-                        tableData += "          </a>";
-                        tableData += "      </td>";
-
-                        tableData += "</tr>";
-                        tblOrderItems.InnerHtml = tableData;
-                        i += 1;
-                    }
+                    tableData += "</tr>";
+                    tblOrderItems.InnerHtml = tableData;
+                    i += 1;
                 }
+
+                //COUNT NUMBER OF ITEMS IN CART
+                int orderCount = totalPrice.Items.Count;
+
+                //SET CSS CLASS AND INNER HTML OF CART BOX HEADER & ORDER COUNT BADGE
+                string spanData = "";
+                spanData += "<i class=" + "'glyph-icon icon-shopping-cart'" + "></i>";
+                spanData += "Cart";
+
+                if (orderCount != 0)
+                {
+                    spanData += "<span class=" + "'bs-badge badge-info float-right'" + ">";
+                    spanData += orderCount.ToString();
+                    spanData += "</span>";
+                }
+
+                boxHeader.InnerHtml = spanData;
+
                 //LOOP THROUGH LISTBOX ITEMS AND CALCULATE THE TOTAL COST OF ORDER
                 for (int j = 0; j < totalPrice.Items.Count; j++)
                 {
@@ -631,24 +725,23 @@ namespace PointSaleSystemWeb.manager
                     divCheckOut.Visible = false;
                 }
             }
-            catch(Exception)
+            catch (Exception ex)
             {
                 alertErrorPanel.Visible = true;
                 alertErrorTitle.Text = Utils.errorTitle;
-                alertErrorMessage.Text = Utils.errorMessage;
+                alertErrorMessage.Text = ex.Message;
             }
             finally
             {
                 con.Close();
             }
-        }     
-       
+        }
+
         //CLEAR METHOD
         private void clear()
         {
+            divProduct.Visible = false;
             ddlProduct.SelectedValue = "0";
-            txtQuantity.Text = String.Empty;
-            txtUnitPrice.Text = String.Empty;
             txtOrderQty.Text = String.Empty;
             txtCost.Text = String.Empty;
         }
@@ -676,7 +769,15 @@ namespace PointSaleSystemWeb.manager
 
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Pop", "ShowModal();", true);
             }
+            else if (lblModal.Text == "DELETE ORDER ITEM")
+            {
+                divModal.Attributes["class"] = "modal-header bg-danger";
+                btnModYes.Attributes["class"] = "btn btn-danger";
+                lblModTitle.Text = "DELETE PRODUCT";
+                lblModMessage.Text = "Are you sure you want to Delete " + lblDelProductName.Text + " from Cart?";
 
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Pop", "ShowModal();", true);
+            }
         }
 
         protected void clsAlertError_ServerClick(object sender, EventArgs e)
@@ -686,8 +787,8 @@ namespace PointSaleSystemWeb.manager
 
         protected void clsAlertSuccess_ServerClick(object sender, EventArgs e)
         {
-            string strURLData = EncryptQueryString(string.Format("OrderID={0}", lblOrderID.Text));
-           
+            string strURLData = EncryptQueryString(string.Format("OrderID={0}&OrderNumber={1}", lblOrderID.Text, lblSubOrderNum.Text));
+
             Response.Redirect("~/manager/receipt.aspx?" + strURLData);
         }
 
@@ -711,18 +812,26 @@ namespace PointSaleSystemWeb.manager
 
         protected void valOrderQty_ServerValidate(object source, ServerValidateEventArgs args)
         {
-            int orderQuantity = Convert.ToInt32(txtOrderQty.Text); //CONVERT ORDER QUANTITY TO INT
-            int quantityAvailable = Convert.ToInt32(txtQuantity.Text); //CONVERT QUANTITY AVAILABLE TO INT
+            //CONVERT ENTERED QUANTITY TO INT
+            int orderQuantity = Convert.ToInt32(txtOrderQty.Text);
 
-            if (orderQuantity > quantityAvailable)
+            //CHECK IF ENTERED QUANTITY IS <= 0
+            if (orderQuantity <= 0)
+            {
+                args.IsValid = false;
+                valOrderQty.ErrorMessage = "Order Quantity must be more than 0";
+            }
+            //CHECK IF ENTERED QUANTITY IS >< QUANTITY AVAILABLE
+            else if (orderQuantity > quantityAvailable)
             {
                 args.IsValid = false;
                 valOrderQty.ErrorMessage = "Cannot order more than " + quantityAvailable;
-            }
+            }            
             else
             {
                 args.IsValid = true;
-            }
+            }          
+
         }
 
         protected void btnCancel_ServerClick(object sender, EventArgs e)
@@ -742,11 +851,15 @@ namespace PointSaleSystemWeb.manager
 
             if (lblModal.Text == "CHECKOUT")
             {
-                checkOut();
+                checkOut("COMPLETED");
             }
             else if (lblModal.Text == "CANCEL")
             {
-                cancel();
+                cancel("CANCELLED");
+            }
+            else if (lblModal.Text == "DELETE ORDER ITEM")
+            {
+                deleteProduct();
             }
         }
 
@@ -754,6 +867,76 @@ namespace PointSaleSystemWeb.manager
         {
             existingCustomer(txtCustomerPhone.Text);
         }
+        #endregion
 
+        #region DELETE ORDER ITEM
+        //GET URL DATA FOR DEL ORDER ITEM
+        private void getDelQueryString()
+        {
+            string strReq;
+            strReq = Request.RawUrl;
+            int urlcount = strReq.Count();
+            delOrderURL = strReq.Substring(0, 23);
+
+            if (strReq.Contains("?"))
+            {
+                strReq = strReq.Substring(strReq.IndexOf('?') + 1);
+
+                strReq = DecryptQueryString(strReq);
+
+                //Parse the value... this is done is very raw format.. you can add loops or so to get the values out of the query string...
+                string[] arrMsgs = strReq.Split('&');
+                string[] arrIndMsg;
+
+                arrIndMsg = arrMsgs[0].Split('='); //GET Item ID
+                lblDelItemID.Text = arrIndMsg[1].ToString().Trim(); //ASSIGN ITEM ID TO LABEL
+                arrIndMsg = arrMsgs[1].Split('='); //GET Order ID
+                lblDelOrderID.Text = arrIndMsg[1].ToString().Trim(); //ASSIGN ORDER ID LABEL TO LABEL
+                arrIndMsg = arrMsgs[2].Split('='); //GET Order Number
+                lblDelOrderNum.Text = arrIndMsg[1].ToString().Trim(); //ASSIGN ORDER NUMBER TO LABEL 
+                arrIndMsg = arrMsgs[3].Split('='); //GET Product ID
+                lblDelProductName.Text = arrIndMsg[1].ToString().Trim(); //ASSIGN PRODUCT ID TO LABEL
+
+                showModal("DELETE ORDER ITEM");
+
+                //ASSIGN ORDER NUMBER TO LABEL AND SHOW ORDER STATUS DIV
+                lblOrderNumber.Text = "ORDER NO: " + lblDelOrderNum.Text;
+
+                //READ CURRENT CUSTOMER
+                readCustomer(lblOrderID.Text);
+
+                //SET CSS CLASS AND INNER HTML OF ORDER STATUS LABEL
+                string spanData = "";
+
+                spanData += "<span class=" + "'bs-label label-yellow float-right'" + ">";
+                spanData += "PENDING";
+                spanData += "<i class=" + "'glyph-icon icon-database pad5L'" + "></i>";
+                spanData += "</span>";
+
+                divOrderStatus.InnerHtml = spanData;
+
+                divOrder.Visible = true;
+            }
+        }
+
+        //DELETE PRODUCT
+        private void deleteProduct()
+        {
+            connection();
+
+            cmd = new MySqlCommand("DELETE FROM list_item WHERE list_item_id = '" + lblDelItemID.Text + "'", con);
+            cmd.Connection = con;
+
+            cmd.ExecuteNonQuery();
+
+            con.Close();
+
+            string strURLData = EncryptQueryString(string.Format("OrderID={0}&OrderNumber={1}", lblDelOrderID.Text, lblDelOrderNum.Text));
+
+            Response.Redirect("~/" + delOrderURL + "?" + strURLData);
+
+        }
+
+        #endregion
     }
 }

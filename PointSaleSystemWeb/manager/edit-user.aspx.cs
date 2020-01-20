@@ -149,20 +149,22 @@ namespace PointSaleSystemWeb.manager
             {
                 connection();
 
-                cmd = new MySqlCommand("UPDATE user SET first_name = @first_name, last_name = @last_name, role_id = @role_id WHERE user_id = '" + user + "'", con);
+                cmd = new MySqlCommand("UPDATE user SET first_name = @first_name, last_name = @last_name, role_id = @role_id, modified_date = @modified_date WHERE user_id = '" + user + "'", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@first_name", txtFirstName.Text);
                 cmd.Parameters.AddWithValue("@last_name", txtLastName.Text);
                 cmd.Parameters.AddWithValue("@role_id", ddlRole.SelectedItem.Value);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
 
                 //UPDATE ROLE IN ACCOUNT
-                cmd = new MySqlCommand("UPDATE account SET role_id = @role_id WHERE user_id = '" + user + "'", con);
+                cmd = new MySqlCommand("UPDATE account SET role_id = @role_id, modified_date = @modified_date WHERE user_id = '" + user + "'", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@role_id", ddlRole.SelectedItem.Value);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
 

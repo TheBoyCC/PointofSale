@@ -18,7 +18,8 @@ namespace PointSaleSystemWeb.manager
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader dr;
-        string sqlcon, userID, expire = "1";
+        string sqlcon, userID;
+        int expire = 1;
         protected void Page_Load(object sender, EventArgs e)
         {
             session();
@@ -120,10 +121,10 @@ namespace PointSaleSystemWeb.manager
                 alertSuccessTitle.Text = "SUCCESS";
                 alertSuccessMessage.Text = txtCategory.Text + " Created Succesfully.";
             }
-            catch (Exception)
+            catch (Exception ex)
             { 
                 alertErrorPanel.Visible = true;
-                alertErrorTitle.Text = Utils.errorTitle;
+                alertErrorTitle.Text = ex.Message;
                 alertErrorMessage.Text = Utils.errorMessage;
             }
             finally
@@ -149,11 +150,11 @@ namespace PointSaleSystemWeb.manager
         {
             if (chkExpire.Checked)
             {
-                expire = "1";
+                expire = 1;
             }
             else
             {
-                expire = "0";
+                expire = 0;
             }
         }
 

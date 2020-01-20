@@ -94,7 +94,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div id="divModal" class="modal-header bg-danger" runat="server">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" causesvalidation="false">&times;</button>
+                        <button id="btnClsModal" type="button" class="close" runat="server" onserverclick="btnModClose_ServerClick" data-dismiss="modal" aria-hidden="true" causesvalidation="false">&times;</button>
                         <h4 class="modal-title">
                             <asp:Label ID="lblModTitle" Text="Delete Hall" runat="server"></asp:Label>
                         </h4>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" causesvalidation="false">
+                        <button id="btnModClose" type="button" class="btn btn-default" runat="server" onserverclick="btnModClose_ServerClick" data-dismiss="modal" causesvalidation="false">
                             <i class="glyph-icon icon-times icon-large"></i>
                             Close
                         </button>

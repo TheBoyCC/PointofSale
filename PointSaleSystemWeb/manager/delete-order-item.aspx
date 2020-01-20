@@ -18,19 +18,21 @@
             <div id="page-title">
                 <h2>Order</h2>
                 <p>
-                    <asp:Label ID="lblOrderID" Visible="false" Text="Success message title" runat="server"></asp:Label>
-                    <asp:Label ID="lblOldQty" Visible="false" Text="Success message title" runat="server"></asp:Label>
-                    <asp:Label ID="lblProductName" Visible="false" Text="Success message title" runat="server"></asp:Label>
-                    <asp:Label ID="lblItemID" Visible="false" Text="Success message title" runat="server"></asp:Label>
-                    <asp:Label ID="lblProductID" Visible="false" Text="Success message title" runat="server"></asp:Label>
-                    <asp:Label ID="lblChangePass" Text="Delete Order Item." runat="server" />
+                    <asp:Label ID="lblChangePass" Text="Add Details of Order." runat="server" />
+                    <asp:Label ID="lblModal" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblOrderID" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblItemID" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblSum" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblProductID" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblOldQty" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblProductName" Visible="false" Text="" runat="server" />
                 </p>
             </div>
             <div class="panel">
                 <div class="panel-body">
                     <div class="example-box-wrapper">
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-7">
                                 <div class="content-box">
                                     <asp:Panel ID="alertErrorPanel" Display="Dynamic" Visible="false" Height="60px" runat="server">
                                         <div class="alert alert-close alert-danger">
@@ -69,52 +71,91 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-horizontal bordered-row">
+                                                    <label class="control-label text-center col-sm-12 pad20B font-size-18">Customer Details</label>
                                                     <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Product Name:</label>
-                                                        <div class="col-sm-7">
-                                                            <asp:DropDownList ID="ddlProduct" CssClass="chosen-select form-control disabled" BackColor="White" runat="server">
-                                                                <asp:ListItem Text="-- Select Product --" Value="0" Selected="True" />
-                                                            </asp:DropDownList>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" runat="server"
-                                                                ControlToValidate="ddlProduct"
-                                                                ErrorMessage="Select Product"
-                                                                InitialValue="0"
-                                                                Display="Dynamic">
-                                                            </asp:RequiredFieldValidator>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Quantity Available:</label>
-                                                        <div class="col-sm-7">
-                                                            <asp:TextBox ID="txtQuantity" CssClass="form-control" placeholder="Quantity Available" BackColor="White" ReadOnly="true" MaxLength="5" runat="server" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Unit Price:</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-prepend input-group">
-                                                                <span class="input-group-addon">GHȻ</span>
-                                                                <asp:TextBox ID="txtUnitPrice" CssClass="form-control" placeholder="Unit Price" BackColor="White" ReadOnly="true" MaxLength="5" runat="server" />
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6">
+                                                                <asp:TextBox ID="txtCustomerName" CssClass="form-control" BackColor="White" placeholder="Customer Name" runat="server" />
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server"
+                                                                    ControlToValidate="txtCustomerName"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[a-zA-Z / -]*$"
+                                                                    ErrorMessage="Enter Aplhabets"
+                                                                    Display="Dynamic">
+                                                            </asp:RegularExpressionValidator>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <asp:TextBox ID="txtCustomerPhone" CssClass="form-control" BackColor="White" placeholder="Customer Phone" runat="server" OnTextChanged="txtCustomerPhone_TextChanged" AutoPostBack="true" />
+                                                                <asp:Label ID="lblExists" ForeColor="Red" Visible="false" Text="" runat="server"></asp:Label>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidatorPhone" runat="server"
+                                                                    ControlToValidate="txtCustomerPhone"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[0-9 ]*$"
+                                                                    ErrorMessage="Enter Numbers"
+                                                                    Display="Dynamic">
+                                                            </asp:RegularExpressionValidator>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Order Quantity:</label>
-                                                        <div class="col-sm-7">
-                                                            <asp:TextBox ID="txtOrderQty" CssClass="form-control" placeholder="Enter Order Quantity" BackColor="White" ReadOnly="true" runat="server" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Cost:</label>
-                                                        <div class="col-sm-7">
-                                                            <div class="input-prepend input-group">
-                                                                <span class="input-group-addon">GHȻ</span>
-                                                                <asp:TextBox ID="txtCost" CssClass="form-control" placeholder="Cost" BackColor="White" ReadOnly="true" runat="server" />
+
+                                                    <div class="form-group">
+                                                        <label class="control-label text-center col-sm-12 pad20B font-size-18">Product Details</label>
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-5">
+                                                                <asp:DropDownList ID="ddlProduct" CssClass="chosen-select form-control mrg10B" runat="server" OnSelectedIndexChanged="ddlProduct_SelectedIndexChanged" AutoPostBack="true">
+                                                                    <asp:ListItem Text="--- Select Product ---" Value="0" Selected="True" />
+                                                                </asp:DropDownList>
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="ddlProduct"
+                                                                    ErrorMessage="Select Product"
+                                                                    InitialValue="0"
+                                                                    Display="Dynamic">
+                                                                </asp:RequiredFieldValidator>
+                                                                <asp:TextBox ID="txtOrderQty" CssClass="form-control mrg20TB" placeholder="Enter Order Quantity" OnTextChanged="txtOrderQty_TextChanged" runat="server" AutoPostBack="true" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtOrderQty"
+                                                                    ErrorMessage="Enter Order Quantity"
+                                                                    Display="Dynamic">
+                                                                </asp:RequiredFieldValidator>
+                                                                <asp:CustomValidator ID="valOrderQty" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtOrderQty"
+                                                                    ErrorMessage=""
+                                                                    Display="Dynamic"
+                                                                    OnServerValidate="valOrderQty_ServerValidate">
+                                                                </asp:CustomValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server"
+                                                                    ControlToValidate="txtOrderQty"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[0-9 ]*$"
+                                                                    ErrorMessage="Enter Numbers"
+                                                                    Display="Dynamic">
+                                                                </asp:RegularExpressionValidator>
+                                                                <div class="input-prepend input-group">
+                                                                    <span class="input-group-addon">GHȻ</span>
+                                                                    <asp:TextBox ID="txtCost" CssClass="form-control" placeholder="Cost" BackColor="White" ReadOnly="true" runat="server" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <div id="divProduct" visible="false" class="tile-box tile-box-alt bg-white content-box" runat="server">
+                                                                    <div class="tile-header font-bold">
+                                                                        Products                                                                                                                        
+                                                                    </div>
+                                                                    <div class="tile-content-wrapper pad20A">
+                                                                        <i class="glyph-icon icon-database"></i>
+                                                                        <div class="tile-content">1,000</div>
+                                                                        <small class="pad15T font-bold">
+                                                                            <i class="glyph-icon icon-caret-up"></i>
+                                                                            Total Number of Products
+                                                                        </small>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <div class="button-pane text-center pad20A mrg20T">
-                                                        <button id="btnAddToCart" class="btn btn-alt btn-hover disabled btn-primary float-right">
+                                                        <button id="btnAddToCart" type="button" class="btn btn-alt btn-hover btn-primary float-right" onserverclick="btnAddToCart_ServerClick" runat="server" causesvalidation="true">
                                                             <span>Add</span>
                                                             <i class="glyph-icon icon-arrow-right"></i>
                                                         </button>
@@ -125,17 +166,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-5">
                                 <div class="content-box">
-                                    <h3 class="content-box-header bg-white text-center"><i class="glyph-icon icon-shopping-cart"></i>Cart</h3>
+                                    <h3 id="boxHeader" class="content-box-header bg-white" runat="server">
+                                        <i class="glyph-icon icon-shopping-cart"></i>
+                                        Cart
+                                    </h3>
                                     <div class="content-box-wrapper">
                                         <div class="row">
                                             <div id="divOrder" visible="false" class="col-sm-12" runat="server">
-                                                <div class="col-sm-4 pad5B font-size-16">
+                                                <div class="col-sm-7 pad5B font-size-16 font-bold">
                                                     <asp:Label ID="lblOrderNumber" Text="" runat="server" />
                                                 </div>
-                                                <div class="col-sm-5 col-sm-offset-3 pad12TB">
-                                                    <span id="lblOrderStatus" class="bs-label label-yellow float-right" runat="server">PENDING</span>
+                                                <div id="divOrderStatus" class="col-sm-5 pad12TB" runat="server">
                                                 </div>
                                             </div>
                                         </div>
@@ -153,17 +196,19 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div id="divCheckOut" visible="false" class="form-horizontal bordered-row" runat="server">
-                                                    <div class="button-pane text-center pad20A mrg10T">
+                                                    <div class="button-pane text-center pad20TB mrg10T">
                                                         <div class="row">
-                                                            <div class="col-sm-4 pad12BT font-size-18 font-bold">
+                                                            <div class="col-sm-4 pad12BT font-size-16 font-bold">
                                                                 <asp:Label ID="lblTotalCost" Text="" runat="server" />
                                                             </div>
-                                                            <div class="col-sm-5 col-sm-offset-3">
-                                                                <button id="btnCancel" class="btn btn-info mrg5R" runat="server">
+                                                            <div class="col-sm-8">
+                                                                <button id="btnCancel" type="button" class="btn btn-alt btn-hover btn-danger" onserverclick="btnCancel_ServerClick" runat="server" causesvalidation="false">
                                                                     <span>CANCEL</span>
+                                                                    <i class="glyph-icon icon-close"></i>
                                                                 </button>
-                                                                <button id="btnCheckOut" class="btn btn-success" runat="server">
+                                                                <button id="btnCheckOut" type="button" class="btn btn-alt btn-hover btn-success float-right" onserverclick="btnCheckOut_ServerClick" runat="server" causesvalidation="false">
                                                                     <span>CHECKOUT</span>
+                                                                    <i class="glyph-icon icon-check"></i>
                                                                 </button>
                                                             </div>
 

@@ -80,7 +80,7 @@
                                                     <div class="form-group remove-border">
                                                         <label class="col-sm-4 control-label">Order Quantity:</label>
                                                         <div class="col-sm-6">
-                                                            <asp:TextBox ID="txtOrderQty" CssClass="form-control" placeholder="Enter Order Quantity" OnTextChanged="txtOrderQty_TextChanged" runat="server" AutoPostBack="true" />
+                                                            <asp:TextBox ID="txtOrderQty" CssClass="form-control" placeholder="Enter Order Quantity" OnTextChanged="txtOrderQty_TextChanged" runat="server" CausesValidation="true" AutoPostBack="true" />
                                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ForeColor="Red" runat="server"
                                                                 ControlToValidate="txtOrderQty"
                                                                 ErrorMessage="Enter Order Quantity"
@@ -111,7 +111,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="button-pane content-box text-center pad20A mrg20T">
-                                                        <asp:Button ID="btnSave" CssClass="btn btn-success float-right" Text="Save" OnClick="btnSave_Click" runat="server" />
+                                                         <button id="btnSave" type="button" class="btn btn-alt btn-hover btn-success float-right" onserverclick="btnSave_ServerClick" runat="server" causesvalidation="true">
+                                                            <span>Save</span>
+                                                            <i class="glyph-icon icon-save"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

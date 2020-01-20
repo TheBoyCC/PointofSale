@@ -128,10 +128,10 @@ namespace PointSaleSystemWeb.manager
 
         //CALCULATE COST OF PRODUCT
         private void calculateCost()
-        { 
+        {
             double unitPrice = Convert.ToDouble(txtUnitPrice.Text);
             double orderQuantity = Convert.ToDouble(txtOrderQty.Text);
-            
+
             double cost = unitPrice * orderQuantity;
             txtCost.Text = cost.ToString("#,0.00");
         }
@@ -142,14 +142,15 @@ namespace PointSaleSystemWeb.manager
             connection();
             con.Open();
 
-            cmd = new MySqlCommand("UPDATE list_item SET quantity_sold = @quantity_sold, price = @price WHERE list_item_id = '" + lblItemID.Text + "'", con);
+            cmd = new MySqlCommand("UPDATE list_item SET quantity_sold = @quantity_sold, price = @price, modified_date = @modified_date WHERE list_item_id = '" + lblItemID.Text + "'", con);
             cmd.Connection = con;
 
             cmd.Parameters.AddWithValue("@quantity_sold", txtOrderQty.Text);
             cmd.Parameters.AddWithValue("@price", txtCost.Text);
+            cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
             cmd.ExecuteNonQuery();
-            
+
             con.Close();
 
             //UPDATE PRODUCT QUANTITY
@@ -173,14 +174,15 @@ namespace PointSaleSystemWeb.manager
             {
                 diffQty = newQty - oldQty; //SUBTRACT OLD QUANTITY FROM NEW QUANTITY
                 qtyAvailable = qtyAvailable - diffQty; //SUBTRACT DIFF(NEW & OLD QUANTITY) FROM QUANTITY AVAILABLE
-                                
+
                 connection();
                 con.Open();
 
-                cmd = new MySqlCommand("UPDATE product SET quantity_available = @quantity_available WHERE product_id = '" + lblProductID.Text + "'", con);
+                cmd = new MySqlCommand("UPDATE product SET quantity_available = @quantity_available, modified_date = @modified_date WHERE product_id = '" + lblProductID.Text + "'", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@quantity_available", qtyAvailable);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
 
@@ -195,10 +197,11 @@ namespace PointSaleSystemWeb.manager
                 connection();
                 con.Open();
 
-                cmd = new MySqlCommand("UPDATE product SET quantity_available = @quantity_available WHERE product_id = '" + lblProductID.Text + "'", con);
+                cmd = new MySqlCommand("UPDATE product SET quantity_available = @quantity_available, modified_date = @modified_date WHERE product_id = '" + lblProductID.Text + "'", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@quantity_available", qtyAvailable);
+                cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
 
@@ -210,15 +213,18 @@ namespace PointSaleSystemWeb.manager
         {
             //ENCRYPT DATA IN URL
             string strURLData = EncryptQueryString(string.Format("OrderID={0}&OrderNumber={1}", lblOrderID.Text, lblOrderNumber.Text));
-                
+
             Response.Redirect("~/manager/add-order.aspx?" + strURLData);
         }
         protected void txtOrderQty_TextChanged(object sender, EventArgs e)
         {
-            calculateCost();
+            if (Page.IsValid)
+            {
+                calculateCost();
+            }
         }
 
-        protected void btnSave_Click(object sender, EventArgs e)
+        protected void btnSave_ServerClick(object sender, EventArgs e)
         {
             if (Page.IsValid)
             {
@@ -239,7 +245,7 @@ namespace PointSaleSystemWeb.manager
             else
             {
                 args.IsValid = true;
-            }    
+            }
         }
     }
 }

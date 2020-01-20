@@ -18,7 +18,7 @@ namespace PointSaleSystemWeb.manager
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader dr;
-        string sqlcon, userID, categoryID, productType;
+        string sqlcon, userID, categoryID;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -124,12 +124,13 @@ namespace PointSaleSystemWeb.manager
                 connection();
                 con.Open();
 
-                cmd = new MySqlCommand("UPDATE product SET selling_price = @selling_price, cost_price = @cost_price, min_stock_level = @min_stock_level WHERE product_id = '" + lblProductID.Text + "'", con);
+                cmd = new MySqlCommand("UPDATE product SET selling_price = @selling_price, cost_price = @cost_price, min_stock_level = @min_stock_level, modified_date = @modified_date WHERE product_id = '" + lblProductID.Text + "'", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("@selling_price", txtSellingPrice.Text);
                 cmd.Parameters.AddWithValue("@cost_price", txtCostPrice.Text);
                 cmd.Parameters.AddWithValue("@min_stock_level", txtMinLevel.Text);
+                               cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
                                
