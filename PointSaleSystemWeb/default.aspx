@@ -136,7 +136,7 @@
 
     <img src="assets/image-resources/blurred-bg/blurred-bg-7.jpg" class="login-img wow fadeIn" alt="" />
 
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" defaultfocus="txtUsername">
 
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div class="center-vertical">

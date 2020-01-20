@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.IO;
 using PointSaleSystemWeb.manager;
+using System.Reflection;
 
 namespace PointSaleSystemWeb
 {
@@ -26,10 +27,6 @@ namespace PointSaleSystemWeb
 
             user();
 
-            if (!IsPostBack)
-            {
-                getQueryString();
-            }
         }
         //GET SESSION
         public void session()
@@ -69,35 +66,6 @@ namespace PointSaleSystemWeb
             return sb.ToString();
         }
 
-        //DECRYPT QUERY FUNCTION
-        private string DecryptQueryString(string strQueryString)
-        {
-            EncryptDecryptQueryString objEDQueryString = new EncryptDecryptQueryString();
-            return objEDQueryString.Decrypt(strQueryString, "r0b1nr0y");
-        }
-
-        //GET DATA FROM URL
-        private void getQueryString()
-        {
-            string strReq;
-            strReq = Request.RawUrl;
-            lblUrlString.Text = strReq;
-
-            if (strReq.Contains("?"))
-            {
-                strReq = strReq.Substring(strReq.IndexOf('?') + 1);
-
-                strReq = DecryptQueryString(strReq);
-
-                //Parse the value... this is done is very raw format.. you can add loops or so to get the values out of the query string...
-                string[] arrMsgs = strReq.Split('&');
-                string[] arrIndMsg;
-
-                arrIndMsg = arrMsgs[0].Split('='); //GET Old Password
-                lblOldPass.Text = arrIndMsg[1].ToString().Trim();
-            }
-        }
-
         //READ USER DETAILS FROM DB
         private void user()
         {
@@ -127,13 +95,22 @@ namespace PointSaleSystemWeb
                         imgUser.ImageUrl = "data:Image/png;base64," + strbase64;
                         imgUser1.ImageUrl = "data:Image/png;base64," + strbase64;
                     }
+                    dr.Close();
+
+                    cmd = new MySqlCommand("SELECT password FROM account WHERE user_id = '" + userID + "'", con);
+                    cmd.Connection = con;
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        lblOldPass.Text = dr["password"].ToString();
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 alertErrorPanel.Visible = true;
                 alertErrorTitle.Text = Utils.errorTitle;
-                alertErrorMessage.Text = Utils.errorMessage;
+                alertErrorMessage.Text = ex.Message;
             }
 
         }
@@ -205,9 +182,10 @@ namespace PointSaleSystemWeb
                     {
                         connection();
 
-                        cmd = new MySqlCommand("UPDATE account SET password = @password WHERE user_id = '" + userID + "'", con);
+                        cmd = new MySqlCommand("UPDATE account SET password = @password, modified_date = @modified_date WHERE user_id = '" + userID + "'", con);
                         cmd.Connection = con;
                         cmd.Parameters.AddWithValue("@password", hashNewPass);
+                        cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                         cmd.ExecuteNonQuery();
 
@@ -229,6 +207,14 @@ namespace PointSaleSystemWeb
             }
         }
 
+        protected void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                updatePassword(txtOldPassword.Text);
+            }
+        }
+
         protected void btnSignOut_ServerClick(object sender, EventArgs e)
         {
             Session.RemoveAll();
@@ -238,26 +224,18 @@ namespace PointSaleSystemWeb
             Response.Redirect("~/default.aspx");
         }
 
-        protected void btnChangePassword_Click(object sender, EventArgs e)
-        {
-            if (Page.IsValid)
-            {
-                updatePassword(txtOldPassword.Text);
-            }
-        }
-
         protected void CustomValidatorNewPass_ServerValidate(object source, ServerValidateEventArgs args)
         {
             int passwordLenght = txtNewPassword.Text.Length;
 
             if (passwordLenght > 6)
             {
-                
+
                 if (txtNewPassword.Text.Any(char.IsUpper))
                 {
                     if (txtNewPassword.Text.Any(char.IsNumber))
                     {
-                        args.IsValid = true;  
+                        args.IsValid = true;
                     }
                     else
                     {
@@ -265,7 +243,7 @@ namespace PointSaleSystemWeb
 
                         CustomValidatorNewPass.ErrorMessage = "Password must contain at least 1 number";
                     }
-                      
+
                 }
                 else
                 {
@@ -290,7 +268,7 @@ namespace PointSaleSystemWeb
 
         protected void clsAlertError_ServerClick(object sender, EventArgs e)
         {
-            Response.Redirect("~" + lblUrlString.Text);
+            Response.Redirect("~/change-password.aspx");
         }
 
     }
