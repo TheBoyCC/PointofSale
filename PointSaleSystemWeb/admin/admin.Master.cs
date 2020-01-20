@@ -20,7 +20,7 @@ namespace PointSaleSystemWeb.admin
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader dr;
-        string sqlcon, userID, roleID, username, userLogID;
+        string sqlcon, userID, username, userLogID;
 
         protected void Page_Load(object sender, EventArgs e)
         {
