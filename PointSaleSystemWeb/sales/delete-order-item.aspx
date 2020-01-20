@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/sales/sales.Master" AutoEventWireup="true" CodeBehind="add-order.aspx.cs" Inherits="PointSaleSystemWeb.sales.add_order" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/sales/sales.Master" AutoEventWireup="true" CodeBehind="delete-order-item.aspx.cs" Inherits="PointSaleSystemWeb.sales.delete_order_item" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="title" runat="server">
     Point of Sale - Order
@@ -7,37 +7,25 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="content" runat="server">
     <script type="text/javascript" src="../assets/widgets/chosen/chosen.js"></script>
     <script type="text/javascript" src="../assets/widgets/chosen/chosen-demo.js"></script>
-    <script type="text/javascript" src="../assets/widgets/touchspin/touchspin.js"></script>
-    <script type="text/javascript" src="../assets/widgets/touchspin/touchspin-demo.js"></script>
 
     <script type="text/javascript">
         function ShowModal() {
-            $("#confirmOrder").modal('show');
+            $("#deleteOrder").modal('show');
         }
     </script>
-    <script type="text/javascript">
-        function CloseModal() {
-            $("#confirmOrder").modal('hide');
-        }
-    </script>
-
     <div id="page-content">
         <div class="container">
             <div id="page-title">
                 <h2>Order</h2>
                 <p>
-                    <asp:Label ID="lblDelItemID" Visible="false" Text="" runat="server" />
-                    <asp:Label ID="lblDelOrderNum" Visible="false" Text="" runat="server" />
-                    <asp:Label ID="lblDelOrderID" Visible="false" Text="" runat="server" />
-                      <asp:Label ID="lblDelProductName" Visible="false" Text="" runat="server" />
                     <asp:Label ID="lblChangePass" Text="Add Details of Order." runat="server" />
                     <asp:Label ID="lblModal" Visible="false" Text="" runat="server" />
                     <asp:Label ID="lblOrderID" Visible="false" Text="" runat="server" />
-                    <asp:Label ID="lblSubOrderNum" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblItemID" Visible="false" Text="" runat="server" />
                     <asp:Label ID="lblSum" Visible="false" Text="" runat="server" />
-                    <asp:Label ID="lblCustomerID" Visible="false" Text="" runat="server" />
-                    <asp:Label ID="lblCustomerName" Visible="false" Text="" runat="server" />
-                    <asp:Label ID="lblCustomerPhone" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblProductID" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblOldQty" Visible="false" Text="" runat="server" />
+                    <asp:Label ID="lblProductName" Visible="false" Text="" runat="server" />
                 </p>
             </div>
             <div class="panel">
@@ -48,7 +36,7 @@
                                 <div class="content-box">
                                     <asp:Panel ID="alertErrorPanel" Display="Dynamic" Visible="false" Height="60px" runat="server">
                                         <div class="alert alert-close alert-danger">
-                                            <a href="#" id="clsAlertError" title="Close" class="glyph-icon alert-close-btn icon-remove" runat="server" onserverclick="clsAlertError_ServerClick" causesvalidation="false"></a>
+                                            <a href="#" id="clsAlertError" title="Close" class="glyph-icon alert-close-btn icon-remove" runat="server" onserverclick="clsAlertSuccess_ServerClick" causesvalidation="false"></a>
                                             <div class="bg-red alert-icon">
                                                 <i class="glyph-icon icon-times"></i>
                                             </div>
@@ -123,7 +111,7 @@
                                                                     InitialValue="0"
                                                                     Display="Dynamic">
                                                                 </asp:RequiredFieldValidator>
-                                                                <asp:TextBox ID="txtOrderQty" CssClass="form-control mrg20T" placeholder="Enter Order Quantity" OnTextChanged="txtOrderQty_TextChanged" runat="server" CausesValidation="true" AutoPostBack="true" />
+                                                                <asp:TextBox ID="txtOrderQty" CssClass="form-control mrg20TB" placeholder="Enter Order Quantity" OnTextChanged="txtOrderQty_TextChanged" runat="server" AutoPostBack="true" />
                                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ForeColor="Red" runat="server"
                                                                     ControlToValidate="txtOrderQty"
                                                                     ErrorMessage="Enter Order Quantity"
@@ -142,7 +130,7 @@
                                                                     ErrorMessage="Enter Numbers"
                                                                     Display="Dynamic">
                                                                 </asp:RegularExpressionValidator>
-                                                                <div class="input-prepend input-group  mrg20T">
+                                                                <div class="input-prepend input-group">
                                                                     <span class="input-group-addon">GHȻ</span>
                                                                     <asp:TextBox ID="txtCost" CssClass="form-control" placeholder="Cost" BackColor="White" ReadOnly="true" runat="server" />
                                                                 </div>
@@ -167,7 +155,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="button-pane text-center pad20A mrg20T">
-                                                        <button id="btnAddToCart" type="button" class="btn btn-alt btn-hover btn-primary float-right tooltip-button" onserverclick="btnAddToCart_ServerClick" runat="server" causesvalidation="true" data-placement="top" title="Add Product to Cart">
+                                                        <button id="btnAddToCart" type="button" class="btn btn-alt btn-hover btn-primary float-right" onserverclick="btnAddToCart_ServerClick" runat="server" causesvalidation="true">
                                                             <span>Add</span>
                                                             <i class="glyph-icon icon-arrow-right"></i>
                                                         </button>
@@ -214,11 +202,11 @@
                                                                 <asp:Label ID="lblTotalCost" Text="" runat="server" />
                                                             </div>
                                                             <div class="col-sm-8">
-                                                                <button id="btnCancel" type="button" class="btn btn-alt btn-hover btn-danger tooltip-button" onserverclick="btnCancel_ServerClick" runat="server" causesvalidation="false" data-placement="top" title="Cancel Order">
+                                                                <button id="btnCancel" type="button" class="btn btn-alt btn-hover btn-danger" onserverclick="btnCancel_ServerClick" runat="server" causesvalidation="false">
                                                                     <span>CANCEL</span>
                                                                     <i class="glyph-icon icon-close"></i>
                                                                 </button>
-                                                                <button id="btnCheckOut" type="button" class="btn btn-alt btn-hover btn-success float-right tooltip-button" onserverclick="btnCheckOut_ServerClick" runat="server" causesvalidation="false" data-placement="top" title="Checkout Order">
+                                                                <button id="btnCheckOut" type="button" class="btn btn-alt btn-hover btn-success float-right" onserverclick="btnCheckOut_ServerClick" runat="server" causesvalidation="false">
                                                                     <span>CHECKOUT</span>
                                                                     <i class="glyph-icon icon-check"></i>
                                                                 </button>
@@ -237,11 +225,11 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="confirmOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div id="divModal" class="modal-header bg-danger" runat="server">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" causesvalidation="false">&times;</button>
+                        <button id="btnClsModal" type="button" class="close" runat="server" onserverclick="btnModClose_ServerClick" aria-hidden="true" causesvalidation="false">&times;</button>
                         <h4 class="modal-title">
                             <asp:Label ID="lblModTitle" Text="Delete Hall" runat="server"></asp:Label>
                         </h4>
@@ -254,15 +242,13 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" causesvalidation="false">
+                        <button id="btnModClose" type="button" class="btn btn-default" runat="server" onserverclick="btnModClose_ServerClick" causesvalidation="false">
                             <i class="glyph-icon icon-times icon-large"></i>
                             Close
-                       
                         </button>
                         <button id="btnModYes" type="button" class="btn btn-danger" runat="server" onserverclick="btnModYes_ServerClick" causesvalidation="false">
                             <i class="glyph-icon icon-check icon-large"></i>
                             Yes
-                       
                         </button>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ namespace PointSaleSystemWeb.sales
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader dr;
-        string sqlcon, userID, roleID, username, userLogID;
+        string sqlcon, userID, roleID, username, userLogID, duration;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -111,24 +111,33 @@ namespace PointSaleSystemWeb.sales
                     string filename1 = Path.GetFileName(filePath);
                     string ext = Path.GetExtension(filename1);
 
-                    int length = fileUpload.PostedFile.ContentLength;
-                    byte[] imgbyte = new byte[length];
-                    HttpPostedFile img = fileUpload.PostedFile;
-                    img.InputStream.Read(imgbyte, 0, length);
+                    if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
+                    {
+                        alertPanel.Visible = true;
+                        alertTitle.Text = "UPLOAD FAILED";
+                        alertMessage.Text = "Please Select a Picture.";
+                    }
+                    else
+                    {
+                        int length = fileUpload.PostedFile.ContentLength;
+                        byte[] imgbyte = new byte[length];
+                        HttpPostedFile img = fileUpload.PostedFile;
+                        img.InputStream.Read(imgbyte, 0, length);
 
-                    connection();
-                    cmd = new MySqlCommand("UPDATE user SET picture = @picture WHERE user_id = '" + userID + "'", con);
-                    cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@picture", imgbyte);
+                        connection();
+                        cmd = new MySqlCommand("UPDATE user SET picture = @picture, modified_date = @modified_date WHERE user_id = '" + userID + "'", con);
+                        cmd.Connection = con;
+                        cmd.Parameters.AddWithValue("@picture", imgbyte);
+                        cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
-                    cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
 
-                    alertPanel.Visible = true;
-                    alertTitle.Text = "UPLOAD SUCCESSFUL";
-                    alertMessage.Text = "Profile Picture Changed.";
+                        alertPanel.Visible = true;
+                        alertTitle.Text = "UPLOAD SUCCESSFUL";
+                        alertMessage.Text = "Profile Picture Changed.";
 
-                    Response.Redirect("~/manager/default.aspx");
-
+                        Response.Redirect("~/sales/default.aspx");
+                    }
                 }
                 else
                 {
@@ -153,6 +162,13 @@ namespace PointSaleSystemWeb.sales
         //CHECK PRODUCT LEVEL
         private void checkProductLevel()
         {
+            ListBox notifications = new ListBox();
+            ListBox notifID = new ListBox();
+            ListBox notifTime = new ListBox();
+            string productName, product_id;
+            DateTime modified_date;
+            DateTime today = DateTime.Now;
+
             try
             {
                 connection();
@@ -164,10 +180,129 @@ namespace PointSaleSystemWeb.sales
 
                 if (dr.HasRows)
                 {
-                    notBadge.Visible = true;
-                    divNotID.InnerHtml = "New Notifications";
-                    divNotification.Visible = true;
+                    while (dr.Read())
+                    {
+                        notifications.Items.Add(dr["product_name"].ToString());
+                        notifID.Items.Add(dr["product_id"].ToString());
+                        notifTime.Items.Add(dr["modified_date"].ToString());
+
+                    }
                 }
+
+                #region NOTIFICATION
+                //COUNT NUMBER OF NOTIFICATIONS
+                int countNotif = notifications.Items.Count;
+
+                //SET INNER HTML OF SPAN TO SHOW NUMBER NOTIFICATIONS
+                string spanData = "";
+                spanData += countNotif.ToString();
+                notBadge.InnerHtml = spanData;
+                notBadge.Visible = true;
+
+                divNotID.InnerHtml = "New Notifications";
+
+                //LOOP THROUGH LISTBOX ITEMS AND DISPLAY PRODUCTS
+                string divData = "";
+
+                for (int i = 0; i < notifications.Items.Count; i++)
+                {
+                    //ASSIGN NAME OF LISTBOX ITEM
+                    productName = notifications.Items[i].ToString();
+                    product_id = notifID.Items[i].ToString();
+
+                    #region CALCULATE NOTIFICATION TIME
+                    string diffDay, diffHour, diffMin, diffSec;
+                    modified_date = Convert.ToDateTime(notifTime.Items[i].ToString());
+
+                    TimeSpan dateDiff = today - modified_date;
+                    diffDay = dateDiff.Days.ToString();
+                    diffHour = dateDiff.Hours.ToString();
+                    diffMin = dateDiff.Minutes.ToString();
+                    diffSec = dateDiff.Seconds.ToString();
+
+                    if (diffDay != "0")
+                    {
+                        int numDay = Convert.ToInt32(diffDay);
+                        switch (numDay)
+                        {
+                            case 1:
+                                duration = numDay.ToString() + " day";
+                                break;
+                            default:
+                                duration = numDay.ToString() + " days";
+                                break;
+                        }
+                    }
+                    else if (diffHour != "0")
+                    {
+                        int numHour = Convert.ToInt32(diffHour);
+                        switch (numHour)
+                        {
+                            case 1:
+                                duration = numHour.ToString() + " hour";
+                                break;
+                            case 24:
+                                duration = "1 day";
+                                break;
+                            default:
+                                duration = numHour.ToString() + " hours";
+                                break;
+                        }
+                    }
+                    else if (diffMin != "0")
+                    {
+                        int numMin = Convert.ToInt32(diffMin);
+                        switch (numMin)
+                        {
+                            case 1:
+                                duration = numMin.ToString() + " minute";
+                                break;
+                            case 60:
+                                duration = "1 hour";
+                                break;
+                            default:
+                                duration = numMin.ToString() + " minutes";
+                                break;
+                        }
+                    }
+                    else if (diffSec != "0")
+                    {
+                        int numSec = Convert.ToInt32(diffSec);
+                        switch (numSec)
+                        {
+                            case 1:
+                                duration = numSec.ToString() + " second";
+                                break;
+                            case 60:
+                                duration = "1 minute";
+                                break;
+                            default:
+                                duration = numSec.ToString() + " seconds";
+                                break;
+                        }
+                    }
+                    #endregion
+
+                    //ENCRYPT LISTBOX ITEM IN URL
+                    string strUrl = EncryptQueryString(product_id);
+
+                    divData += "    <li>";
+                    divData += "        <span class=" + "'bg-danger icon-notification glyph-icon icon-database'" + "></span>";
+                    divData += "        <span class=" + "'notification-text font-red'" + ">";
+                    divData += "            <a class=" + "font-red" + " href =" + "#" + ">" + "<b>" + productName + "</b>" + " Stock Level Low</a>";
+                    divData += "        </span>";
+                    divData += "        <div class=" + "'notification-time'" + ">";
+                    divData += "            <b>" + duration + "</b>" + " ago";
+                    divData += "            <span class=" + "'glyph-icon icon-clock-o'" + "></span>";
+                    divData += "        </div>";
+                    divData += "   </li>";
+
+                    ulNotification.InnerHtml = divData;
+                }
+
+                #endregion
+
+                divNotification.Visible = true;
             }
             catch (Exception)
             {
@@ -249,16 +384,14 @@ namespace PointSaleSystemWeb.sales
 
         protected void changePass_ServerClick(object sender, EventArgs e)
         {
-            string strURLData = EncryptQueryString(string.Format("ID={0}", lblPass.Text));
-
-            Response.Redirect("~/change-password.aspx?" + strURLData);
+            Response.Redirect("~/change-password.aspx");
         }
 
         protected void editProfile_ServerClick(object sender, EventArgs e)
         {
             string strURLData = EncryptQueryString(userID);
 
-           // Response.Redirect("~/edit-profile.aspx?" + strURLData);
+            // Response.Redirect("~/edit-profile.aspx?" + strURLData);
         }
 
     }

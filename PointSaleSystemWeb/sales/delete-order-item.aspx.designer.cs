@@ -10,43 +10,7 @@
 namespace PointSaleSystemWeb.sales {
     
     
-    public partial class add_order {
-        
-        /// <summary>
-        /// lblDelItemID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDelItemID;
-        
-        /// <summary>
-        /// lblDelOrderNum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDelOrderNum;
-        
-        /// <summary>
-        /// lblDelOrderID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDelOrderID;
-        
-        /// <summary>
-        /// lblDelProductName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDelProductName;
+    public partial class delete_order_item {
         
         /// <summary>
         /// lblChangePass control.
@@ -76,13 +40,13 @@ namespace PointSaleSystemWeb.sales {
         protected global::System.Web.UI.WebControls.Label lblOrderID;
         
         /// <summary>
-        /// lblSubOrderNum control.
+        /// lblItemID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSubOrderNum;
+        protected global::System.Web.UI.WebControls.Label lblItemID;
         
         /// <summary>
         /// lblSum control.
@@ -94,31 +58,31 @@ namespace PointSaleSystemWeb.sales {
         protected global::System.Web.UI.WebControls.Label lblSum;
         
         /// <summary>
-        /// lblCustomerID control.
+        /// lblProductID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCustomerID;
+        protected global::System.Web.UI.WebControls.Label lblProductID;
         
         /// <summary>
-        /// lblCustomerName control.
+        /// lblOldQty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCustomerName;
+        protected global::System.Web.UI.WebControls.Label lblOldQty;
         
         /// <summary>
-        /// lblCustomerPhone control.
+        /// lblProductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCustomerPhone;
+        protected global::System.Web.UI.WebControls.Label lblProductName;
         
         /// <summary>
         /// alertErrorPanel control.
@@ -409,6 +373,15 @@ namespace PointSaleSystemWeb.sales {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divModal;
         
         /// <summary>
+        /// btnClsModal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnClsModal;
+        
+        /// <summary>
         /// lblModTitle control.
         /// </summary>
         /// <remarks>
@@ -425,6 +398,15 @@ namespace PointSaleSystemWeb.sales {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblModMessage;
+        
+        /// <summary>
+        /// btnModClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnModClose;
         
         /// <summary>
         /// btnModYes control.
