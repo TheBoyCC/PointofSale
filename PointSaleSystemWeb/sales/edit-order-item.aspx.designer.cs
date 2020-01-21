@@ -10,222 +10,213 @@
 namespace PointSaleSystemWeb.sales {
     
     
-    public partial class sales {
+    public partial class edit_order_item {
         
         /// <summary>
-        /// title control.
+        /// lblOrderID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder title;
+        protected global::System.Web.UI.WebControls.Label lblOrderID;
         
         /// <summary>
-        /// form1 control.
+        /// lblOrderNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Label lblOrderNumber;
         
         /// <summary>
-        /// ScriptManager1 control.
+        /// lblOldQty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Label lblOldQty;
         
         /// <summary>
-        /// imgUser control.
+        /// lblQtyAvailable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgUser;
+        protected global::System.Web.UI.WebControls.Label lblQtyAvailable;
         
         /// <summary>
-        /// lblUser control.
+        /// lblItemID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUser;
+        protected global::System.Web.UI.WebControls.Label lblItemID;
         
         /// <summary>
-        /// imgUser1 control.
+        /// lblProductID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgUser1;
+        protected global::System.Web.UI.WebControls.Label lblProductID;
         
         /// <summary>
-        /// lblPass control.
+        /// lblChangePass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPass;
+        protected global::System.Web.UI.WebControls.Label lblChangePass;
         
         /// <summary>
-        /// lblUser1 control.
+        /// alertErrorPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUser1;
+        protected global::System.Web.UI.WebControls.Panel alertErrorPanel;
         
         /// <summary>
-        /// editProfile control.
+        /// clsAlertError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor editProfile;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor clsAlertError;
         
         /// <summary>
-        /// changePass control.
+        /// alertErrorTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor changePass;
+        protected global::System.Web.UI.WebControls.Label alertErrorTitle;
         
         /// <summary>
-        /// btnSignOut control.
+        /// alertErrorMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnSignOut;
+        protected global::System.Web.UI.WebControls.Label alertErrorMessage;
         
         /// <summary>
-        /// notBadge control.
+        /// alertSuccessPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl notBadge;
+        protected global::System.Web.UI.WebControls.Panel alertSuccessPanel;
         
         /// <summary>
-        /// divNotID control.
+        /// clsAlertSuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNotID;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor clsAlertSuccess;
         
         /// <summary>
-        /// divNotification control.
+        /// alertSuccessTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNotification;
+        protected global::System.Web.UI.WebControls.Label alertSuccessTitle;
         
         /// <summary>
-        /// ulNotification control.
+        /// alertSuccessMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulNotification;
+        protected global::System.Web.UI.WebControls.Label alertSuccessMessage;
         
         /// <summary>
-        /// lblRole control.
+        /// txtProductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRole;
+        protected global::System.Web.UI.WebControls.TextBox txtProductName;
         
         /// <summary>
-        /// content control.
+        /// txtUnitPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder content;
+        protected global::System.Web.UI.WebControls.TextBox txtUnitPrice;
         
         /// <summary>
-        /// lblModTitle control.
+        /// txtOrderQty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblModTitle;
+        protected global::System.Web.UI.WebControls.TextBox txtOrderQty;
         
         /// <summary>
-        /// fileUpload control.
+        /// RequiredFieldValidator3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
         
         /// <summary>
-        /// alertPanel control.
+        /// valOrderQty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel alertPanel;
+        protected global::System.Web.UI.WebControls.CustomValidator valOrderQty;
         
         /// <summary>
-        /// clsAlert control.
+        /// RegularExpressionValidator3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor clsAlert;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator3;
         
         /// <summary>
-        /// alertTitle control.
+        /// txtCost control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label alertTitle;
+        protected global::System.Web.UI.WebControls.TextBox txtCost;
         
         /// <summary>
-        /// alertMessage control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label alertMessage;
-        
-        /// <summary>
-        /// btnSavePicture control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnSavePicture;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnSave;
     }
 }

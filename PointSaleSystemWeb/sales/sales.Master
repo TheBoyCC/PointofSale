@@ -65,7 +65,7 @@
     <link rel="stylesheet" type="text/css" href="../assets/icons/fontawesome/fontawesome.css" />
     <link rel="stylesheet" type="text/css" href="../assets/icons/linecons/linecons.css" />
     <link rel="stylesheet" type="text/css" href="../assets/icons/spinnericon/spinnericon.css" />
-
+    <link rel="stylesheet" type="text/css" href="../assets/icons/elusive/elusive.css" />
 
     <!-- WIDGETS -->
 
@@ -234,8 +234,8 @@
 
                     <div id="header-nav-right">
                         <div class="dropdown" id="notifications-btn">
-                            <a data-toggle="dropdown" href="#" title="Notifications">
-                                <span id="notBadge" class="small-badge bg-yellow" visible="false" runat="server"></span>
+                            <a class="tooltip-button" data-toggle="dropdown" href="#" data-placement="bottom" title="Notifications">
+                                <span id="notBadge" class="bs-badge badge-absolute float-right bg-red" visible="false" runat="server"></span>
                                 <i class="glyph-icon icon-bell-o"></i>
                             </a>
                             <div class="dropdown-menu box-md float-right">
@@ -243,7 +243,7 @@
                                     No New Notifications                                                  
                                 </div>
                                 <div id="divNotification" visible="false" class="scrollable-content scrollable-slim-box" runat="server">
-                                    <ul class="no-border notifications-box">
+                                    <ul id="ulNotification" class="no-border notifications-box" runat="server">
                                         <li>
                                             <span class="bg-danger icon-notification glyph-icon icon-bullhorn"></span>
                                             <span class="notification-text">Low Stock Level. <a href="manage-product.aspx">View Product</a> </span>
@@ -257,7 +257,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="header-btn" id="logout-btn" href="#" title="Lock">
+                        <a class="header-btn tooltip-button" id="logout-btn" href="#" data-placement="bottom" title="Lock">
                             <i class="glyph-icon icon-linecons-lock"></i>
                         </a>
                     </div>
