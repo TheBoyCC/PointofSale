@@ -67,15 +67,6 @@ namespace PointSaleSystemWeb.manager {
         protected global::System.Web.UI.WebControls.Image imgUser1;
         
         /// <summary>
-        /// lblPass control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPass;
-        
-        /// <summary>
         /// lblUser1 control.
         /// </summary>
         /// <remarks>
@@ -137,6 +128,15 @@ namespace PointSaleSystemWeb.manager {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNotification;
+        
+        /// <summary>
+        /// ulNotification control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ulNotification;
         
         /// <summary>
         /// lblRole control.

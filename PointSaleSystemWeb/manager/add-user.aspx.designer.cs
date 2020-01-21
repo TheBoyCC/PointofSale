@@ -310,13 +310,13 @@ namespace PointSaleSystemWeb.manager {
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
         
         /// <summary>
-        /// btnSaveuser control.
+        /// btnSaveDetails control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveuser;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnSaveDetails;
         
         /// <summary>
         /// imgUser control.

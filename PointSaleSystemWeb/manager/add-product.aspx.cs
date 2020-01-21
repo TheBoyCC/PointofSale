@@ -70,7 +70,7 @@ namespace PointSaleSystemWeb.manager
                 else
                 {
                     dr.Close();
-                    cmd = new MySqlCommand("INSERT INTO product (product_name, category_id, quantity_available, cost_price, selling_price, min_stock_level) VALUES (@product_name, @category_id, @quantity_available,@cost_price, @selling_price, @min_stock_level)", con);
+                    cmd = new MySqlCommand("INSERT INTO product (product_name, category_id, quantity_available, cost_price, selling_price, min_stock_level, modified_date) VALUES (@product_name, @category_id, @quantity_available,@cost_price, @selling_price, @min_stock_level, @modified_date)", con);
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@product_name", txtProductName.Text);
                     cmd.Parameters.AddWithValue("@category_id", ddlCategory.SelectedItem.Value);
@@ -78,6 +78,7 @@ namespace PointSaleSystemWeb.manager
                     cmd.Parameters.AddWithValue("@cost_price", txtCostPrice.Text);
                     cmd.Parameters.AddWithValue("@selling_price", txtSellingPrice.Text);
                     cmd.Parameters.AddWithValue("@min_stock_level", txtMinLevel.Text);
+                    cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
                     cmd.ExecuteNonQuery();
 
@@ -91,8 +92,8 @@ namespace PointSaleSystemWeb.manager
                 alertErrorPanel.Visible = true;
                 alertErrorTitle.Text = Utils.errorTitle;
                 alertErrorMessage.Text = Utils.errorMessage;
-            }         
-            
+            }
+
         }
 
         //READ CATEGORY FROM DB 
@@ -132,12 +133,14 @@ namespace PointSaleSystemWeb.manager
             Response.Redirect("~/manager/add-product.aspx");
         }
 
-        protected void btnSaveProduct_Click(object sender, EventArgs e)
+        protected void btnSaveDetails_ServerClick(object sender, EventArgs e)
         {
             if (Page.IsValid)
             {
                 saveDetails();
             }
         }
+
+
     }
 }

@@ -18,7 +18,8 @@ namespace PointSaleSystemWeb.manager
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader dr;
-        string sqlcon, userID;
+        string sqlcon, userID, order_number;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             session();
@@ -76,6 +77,8 @@ namespace PointSaleSystemWeb.manager
 
                 arrIndMsg = arrMsgs[0].Split('='); //GET Order ID
                 lblOrderID.Text = arrIndMsg[1].ToString().Trim(); //ASSIGN ORDER ID TO LABEL
+                arrIndMsg = arrMsgs[1].Split('='); //GET Order Number
+                order_number = arrIndMsg[1].ToString().Trim(); //ASSIGN ORDER NUMBER TO LABEL
             }
             else
             {
@@ -117,14 +120,17 @@ namespace PointSaleSystemWeb.manager
         private void loadCart(string orderID)
         {
             ListBox totalPrice = new ListBox();
-            string item;
+            string item, query;
             double sum = 0;
+            query = "SELECT a.order_date, a.order_total, a.customer_name, a.user_name, b.product_name, b.quantity_sold, b.price " +
+                           " FROM order_view a, list_item_view b" +
+                           " WHERE a.order_id = '" + orderID + "' AND b.order_number = '" + order_number + "'";
 
             try
             {
                 connection();
 
-                cmd = new MySqlCommand("SELECT order_number, order_date, product_name, quantity_sold, price, customer_name, user_name FROM order_view WHERE order_id = '" + orderID + "'", con);
+                cmd = new MySqlCommand(query, con);
                 cmd.Connection = con;
                 dr = cmd.ExecuteReader();
 

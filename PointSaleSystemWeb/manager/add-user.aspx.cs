@@ -81,7 +81,7 @@ namespace PointSaleSystemWeb.manager
                 string ext = Path.GetExtension(fileName);
 
 
-                if (ext != ".jpg" && ext != ".jpeg")
+                if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
                 {
                     alertErrorPanel.Visible = true;
                     alertErrorTitle.Text = "UPLOAD FAILED";
@@ -173,14 +173,15 @@ namespace PointSaleSystemWeb.manager
             {
                 connection();
 
-                cmd = new MySqlCommand("INSERT INTO account (user_id, username, password, role_id) VALUES (@user_id, @username, @password, @role_id)", con);
+                cmd = new MySqlCommand("INSERT INTO account (user_id, username, password, role_id, modified_date) VALUES (@user_id, @username, @password, @role_id, @modified_date)", con);
                 cmd.Connection = con;
 
                 cmd.Parameters.AddWithValue("user_id", user_id);
                 cmd.Parameters.AddWithValue("username", username);
                 cmd.Parameters.AddWithValue("password", password);
                 cmd.Parameters.AddWithValue("role_id", role_id);
-              
+                cmd.Parameters.AddWithValue("modified_date", DateTime.Now);
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)
@@ -238,11 +239,11 @@ namespace PointSaleSystemWeb.manager
                     byte[] imgbyte = new byte[finfo.Length]; //CREATE A BYTE ARRAY  OBJECT AND PASS FILEINFO OBJECT
                     FileStream fstream = finfo.OpenRead(); //OPEN FILESTREAM TO READ FILEINFO OBJECT
                     fstream.Read(imgbyte, 0, imgbyte.Length); //READ FILE FROM FILEINFO INTO FILESTREAM
-                    fstream.Close(); //CLOSR FILESTREAM
+                    fstream.Close(); //CLOSE FILESTREAM
 
                     connection();
 
-                    cmd = new MySqlCommand("INSERT INTO user (first_name, last_name, gender, date_of_birth, role_id, phone_number, address, picture) VALUES (@first_name, @last_name, @gender, @date_of_birth, @role_id, @phone_number, @address, @picture)", con);
+                    cmd = new MySqlCommand("INSERT INTO user (first_name, last_name, gender, date_of_birth, role_id, phone_number, address, picture, modified_date) VALUES (@first_name, @last_name, @gender, @date_of_birth, @role_id, @phone_number, @address, @picture, @modified_date)", con);
                     cmd.Connection = con;
 
                     cmd.Parameters.AddWithValue("first_name", txtFirstName.Text);
@@ -253,6 +254,7 @@ namespace PointSaleSystemWeb.manager
                     cmd.Parameters.AddWithValue("phone_number", txtPhone.Text);
                     cmd.Parameters.AddWithValue("address", txtAddress.Text);
                     cmd.Parameters.AddWithValue("picture", imgbyte);
+                    cmd.Parameters.AddWithValue("modified_date", DateTime.Now);
 
                     cmd.ExecuteNonQuery();
 
@@ -262,7 +264,7 @@ namespace PointSaleSystemWeb.manager
                 {
                     connection();
 
-                    cmd = new MySqlCommand("INSERT INTO user (first_name, last_name, gender, date_of_birth, role_id, phone_number, address) VALUES (@first_name, @last_name, @gender, @date_of_birth, @role_id, @phone_number, @address)", con);
+                    cmd = new MySqlCommand("INSERT INTO user (first_name, last_name, gender, date_of_birth, role_id, phone_number, address, modified_date) VALUES (@first_name, @last_name, @gender, @date_of_birth, @role_id, @phone_number, @address, @modified_date)", con);
                     cmd.Connection = con;
 
                     cmd.Parameters.AddWithValue("first_name", txtFirstName.Text);
@@ -272,7 +274,8 @@ namespace PointSaleSystemWeb.manager
                     cmd.Parameters.AddWithValue("role_id", ddlRole.SelectedItem.Value);
                     cmd.Parameters.AddWithValue("phone_number", txtPhone.Text);
                     cmd.Parameters.AddWithValue("address", txtAddress.Text);
-
+                    cmd.Parameters.AddWithValue("modified_date", DateTime.Now);
+                    
                     cmd.ExecuteNonQuery();
                 }
 
@@ -316,12 +319,10 @@ namespace PointSaleSystemWeb.manager
             uploadPicture();
         }
 
-        protected void btnSaveuser_Click(object sender, EventArgs e)
+
+        protected void btnSaveDetails_ServerClick(object sender, EventArgs e)
         {
-            if (Page.IsValid)
-            {
-                saveDetails(lblFileName.Text);
-            }
+            saveDetails(lblFileName.Text);
         }
 
         protected void ddlRole_SelectedIndexChanged(object sender, EventArgs e)

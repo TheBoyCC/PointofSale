@@ -17,12 +17,21 @@
 
         /* Datatables hide columns */
     </script>
+    <script type="text/javascript">
+        function ShowModal() {
+            $("#delProduct").modal('show');
+        }
+    </script>
+
     <div id="page-content">
         <div class="container">
             <div id="page-title">
                 <h2>Products</h2>
                 <p>
                     <asp:Label ID="lblChangePass" Text="View and Manage Products." runat="server" />
+                    <asp:Label ID="lblStatus" Visible="false" Text="Success message title" runat="server"></asp:Label>
+                    <asp:Label ID="lblProductID" Visible="false" Text="Success message title" runat="server"></asp:Label>
+                    <asp:Label ID="lblProductName" Visible="false" Text="Success message title" runat="server"></asp:Label>
                 </p>
             </div>
             <div class="panel">
@@ -67,6 +76,37 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="delProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id="divModal" class="modal-header bg-danger" runat="server">
+                        <button id="btnClsModal" type="button" class="close" runat="server" onserverclick="btnModClose_ServerClick" aria-hidden="true" causesvalidation="false">&times;</button>
+                        <h4 class="modal-title">
+                            <asp:Label ID="lblModTitle" Text="Delete Hall" runat="server"></asp:Label>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center font-size-14">
+                                <asp:Label ID="lblModMessage" Text="Are you sure you want to delete Hall" runat="server" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnModClose" type="button" class="btn btn-default" runat="server" onserverclick="btnModClose_ServerClick" causesvalidation="false">
+                            <i class="glyph-icon icon-times icon-large"></i>
+                            Close
+                       
+                        </button>
+                        <button id="btnModYes" type="button" class="btn btn-danger" runat="server" onserverclick="btnModYes_ServerClick" causesvalidation="false">
+                            <i class="glyph-icon icon-check icon-large"></i>
+                            Yes
+                       
+                        </button>
                     </div>
                 </div>
             </div>

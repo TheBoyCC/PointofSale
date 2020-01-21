@@ -40,7 +40,7 @@
                 <div class="panel-body">
                     <div class="example-box-wrapper">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-7">
                                 <div class="content-box">
                                     <asp:Panel ID="alertErrorPanel" Display="Dynamic" Visible="false" Height="60px" runat="server">
                                         <div class="alert alert-close alert-danger">
@@ -74,178 +74,183 @@
                                             </div>
                                         </div>
                                     </asp:Panel>
-                                    <h3 class="content-box-header bg-white text-center">User Details</h3>
+                                    <h3 class="content-box-header bg-white text-center">Enter Details of User</h3>
                                     <div class="content-box-wrapper">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div class="col-md-7">
-                                                    <div class="content-box">
-                                                        <h3 class="content-box-header bg-white text-center">Enter Details of User</h3>
-                                                        <div class="form-horizontal bordered-row">
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">First Name:</label>
-                                                                <div class="col-sm-6">
-                                                                    <asp:TextBox ID="txtFirstName" CssClass="form-control" placeholder="Enter First Name" runat="server" />
-                                                                    <asp:RequiredFieldValidator ID="RequiredFiedValidatorFName" ForeColor="Red" runat="server"
-                                                                        ControlToValidate="txtFirstName"
-                                                                        ErrorMessage="Enter First Name"
-                                                                        Display="Dynamic">
+                                                <div class="form-horizontal bordered-row">
+                                                    <!-- Name -->
+                                                    <div class="form-group remove-border">
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6">
+                                                                <label>First Name</label>
+                                                                <asp:TextBox ID="txtFirstName" CssClass="form-control" placeholder="Enter First Name" runat="server" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFiedValidatorFName" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtFirstName"
+                                                                    ErrorMessage="Enter First Name"
+                                                                    Display="Dynamic">
                                                                     </asp:RequiredFieldValidator>
-                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidatorFirstName" runat="server"
-                                                                        ControlToValidate="txtFirstName"
-                                                                        ForeColor="Red"
-                                                                        ValidationExpression="[a-zA-Z ]*$"
-                                                                        ErrorMessage="Enter Aplhabets"
-                                                                        Display="Dynamic">
-                                                                    </asp:RegularExpressionValidator>
-                                                                </div>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidatorFirstName" runat="server"
+                                                                    ControlToValidate="txtFirstName"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[a-zA-Z ]*$"
+                                                                    ErrorMessage="Enter Aplhabets"
+                                                                    Display="Dynamic">
+                                                                 </asp:RegularExpressionValidator>
                                                             </div>
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">Last Name:</label>
-                                                                <div class="col-sm-6">
-                                                                    <asp:TextBox ID="txtLastName" CssClass="form-control" placeholder="Enter Last Name" runat="server" />
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorLName" ForeColor="Red" runat="server"
-                                                                        ControlToValidate="txtLastName"
-                                                                        ErrorMessage="Enter Last Name"
-                                                                        Display="Dynamic">
+                                                            <div class="col-sm-6">
+                                                                <label>Last Name</label>
+                                                                <asp:TextBox ID="txtLastName" CssClass="form-control" placeholder="Enter Last Name" runat="server" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidatorLName" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtLastName"
+                                                                    ErrorMessage="Enter Last Name"
+                                                                    Display="Dynamic">
                                                                     </asp:RequiredFieldValidator>
-                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server"
-                                                                        ControlToValidate="txtLastName"
-                                                                        ForeColor="Red"
-                                                                        ValidationExpression="[a-zA-Z -]*$"
-                                                                        ErrorMessage="Enter Aplhabets"
-                                                                        Display="Dynamic">
-                                                                    </asp:RegularExpressionValidator>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">Gender:</label>
-                                                                <div class="col-sm-6 ">
-                                                                    <div>
-                                                                        <asp:DropDownList ID="ddlGender" CssClass="custom-select form-control" runat="server">
-                                                                            <asp:ListItem Text="-- Select Gender --" Value="0" Selected="True" />
-                                                                            <asp:ListItem Text="Male" />
-                                                                            <asp:ListItem Text="Female" />
-                                                                        </asp:DropDownList>
-                                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ForeColor="Red" runat="server"
-                                                                            ControlToValidate="ddlGender"
-                                                                            ErrorMessage="Select Gender"
-                                                                            InitialValue="0"
-                                                                            Display="Dynamic">
-                                                                        </asp:RequiredFieldValidator>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">Date of Birth:</label>
-                                                                <div class="col-sm-6">
-                                                                    <div class="input-prepend input-group">
-                                                                        <span class="add-on input-group-addon">
-                                                                            <i class="glyph-icon icon-calendar"></i>
-                                                                        </span>
-                                                                        <asp:TextBox ID="txtDOB" CssClass="bootstrap-datepicker form-control" placeholder="yyyy / mm / dd" runat="server" />
-                                                                    </div>
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ForeColor="Red" runat="server"
-                                                                        ControlToValidate="txtDOB"
-                                                                        ErrorMessage="Enter Date of Birth"
-                                                                        Display="Dynamic">
-                                                                    </asp:RequiredFieldValidator>
-                                                                    <asp:RangeValidator ID="RangeValidatorDOB" runat="server"
-                                                                        ControlToValidate="txtDOB"
-                                                                        ForeColor="Red"
-                                                                        ErrorMessage="Age must be between 24 & 60"
-                                                                        MinimumValue="1958/01/31" MaximumValue="1994/12/31"
-                                                                        Type="Date"
-                                                                        Display="Dynamic">
-                                                                    </asp:RangeValidator>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">Phone Number:</label>
-                                                                <div class="col-sm-6">
-                                                                    <asp:TextBox ID="txtPhone" CssClass="form-control" placeholder="Enter Phone Number" MaxLength="10" runat="server" />
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ForeColor="Red" runat="server"
-                                                                        ControlToValidate="txtPhone"
-                                                                        ErrorMessage="Enter Phone Number"
-                                                                        Display="Dynamic">
-                                                                    </asp:RequiredFieldValidator>
-                                                                    <asp:CustomValidator ID="valPhone" ForeColor="Red" runat="server"
-                                                                        ControlToValidate="txtPhone"
-                                                                        ErrorMessage=""
-                                                                        Display="Dynamic"
-                                                                        OnServerValidate="valPhone_ServerValidate">
-                                                                    </asp:CustomValidator>
-                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidatorPhone" runat="server"
-                                                                        ControlToValidate="txtPhone"
-                                                                        ForeColor="Red"
-                                                                        ValidationExpression="[0-9 ]*$"
-                                                                        ErrorMessage="Enter Numbers"
-                                                                        Display="Dynamic">
-                                                                    </asp:RegularExpressionValidator>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">Address:</label>
-                                                                <div class="col-sm-6">
-                                                                    <asp:TextBox ID="txtAddress" CssClass="form-control" placeholder="Enter Address" TextMode="MultiLine" runat="server" />
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator9" ForeColor="Red" runat="server"
-                                                                        ControlToValidate="txtAddress"
-                                                                        ErrorMessage="Enter Address"
-                                                                        Display="Dynamic">
-                                                                    </asp:RequiredFieldValidator>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">Role:</label>
-                                                                <div class="col-sm-6 ">
-                                                                    <div>
-                                                                        <asp:DropDownList ID="ddlRole" CssClass="custom-select form-control" runat="server" OnSelectedIndexChanged="ddlRole_SelectedIndexChanged" AutoPostBack="true">
-                                                                            <asp:ListItem Text="-- Select Role --" Value="0" Selected="True" />
-                                                                        </asp:DropDownList>
-                                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" runat="server"
-                                                                            ControlToValidate="ddlRole"
-                                                                            ErrorMessage="Select Role"
-                                                                            InitialValue="0"
-                                                                            Display="Dynamic">
-                                                                        </asp:RequiredFieldValidator>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group remove-border">
-                                                                <label class="col-sm-4 control-label">Username:</label>
-                                                                <div class="col-sm-6">
-                                                                    <asp:TextBox ID="txtUserName" CssClass="form-control" placeholder="Username" BackColor="White" ReadOnly="true" runat="server" />
-                                                                </div>
-                                                            </div>
-                                                            <asp:TextBox ID="txtPassword" CssClass="form-control" Visible="false" placeholder="Password" BackColor="White" ReadOnly="true" runat="server" />
-                                                            <div class="button-pane content-box text-center pad20A mrg20T">
-                                                                <asp:Button ID="btnSaveuser" CssClass="btn btn-success float-right" Text="Save Details" OnClick="btnSaveuser_Click" runat="server" />
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server"
+                                                                    ControlToValidate="txtLastName"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[a-zA-Z -]*$"
+                                                                    ErrorMessage="Enter Aplhabets"
+                                                                    Display="Dynamic">
+                                                                 </asp:RegularExpressionValidator>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <div class="content-box">
-                                                        <h3 class="content-box-header bg-white text-center">Select Picture</h3>
-                                                        <div class="form-horizontal bordered-row">
-                                                            <div class="form-group remove-border pad20T pad15B">
-                                                                <div class="text-center">
-                                                                    <asp:Image ID="imgUser" CssClass="user-image" runat="server" Height="250px" Width="250px" />
+                                                    <!-- Gender & DOB -->
+                                                    <div class="form-group remove-border">
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6 ">
+                                                                <div>
+                                                                    <label>Gender</label>
+                                                                    <asp:DropDownList ID="ddlGender" CssClass="custom-select form-control" runat="server">
+                                                                        <asp:ListItem Text="-- Select Gender --" Value="0" Selected="True" />
+                                                                        <asp:ListItem Text="Male" />
+                                                                        <asp:ListItem Text="Female" />
+                                                                    </asp:DropDownList>
+                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ForeColor="Red" runat="server"
+                                                                        ControlToValidate="ddlGender"
+                                                                        ErrorMessage="Select Gender"
+                                                                        InitialValue="0"
+                                                                        Display="Dynamic">
+                                                                    </asp:RequiredFieldValidator>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group remove-border pad0T mrg25B">
-                                                                <div class="col-sm-10 col-sm-offset-1 text-center">
-                                                                    <a id="btnSelect" href="#uploadPicture" title="" data-toggle="modal" class="btn btn-info" runat="server">Select File</a>
-                                                                    <a id="btnChange" visible="false" href="#uploadPicture" title="" data-toggle="modal" class="btn btn-info" runat="server">Change File</a>
+                                                            <div class="col-sm-6">
+                                                                <label>Date of Birth</label>
+                                                                <div class="input-prepend input-group">
+                                                                    <span class="add-on input-group-addon">
+                                                                        <i class="glyph-icon icon-calendar"></i>
+                                                                    </span>
+                                                                    <asp:TextBox ID="txtDOB" CssClass="bootstrap-datepicker form-control" placeholder="yyyy / mm / dd" runat="server" />
                                                                 </div>
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtDOB"
+                                                                    ErrorMessage="Enter Date of Birth"
+                                                                    Display="Dynamic">
+                                                                    </asp:RequiredFieldValidator>
+                                                                <asp:RangeValidator ID="RangeValidatorDOB" runat="server"
+                                                                    ControlToValidate="txtDOB"
+                                                                    ForeColor="Red"
+                                                                    ErrorMessage="Age must be between 24 & 60"
+                                                                    MinimumValue="1958/01/31" MaximumValue="1994/12/31"
+                                                                    Type="Date"
+                                                                    Display="Dynamic">
+                                                                 </asp:RangeValidator>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- Phone & Address -->
+                                                    <div class="form-group remove-border">
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6">
+                                                                <label>Phone Number</label>
+                                                                <asp:TextBox ID="txtPhone" CssClass="form-control" placeholder="Enter Phone Number" MaxLength="10" runat="server" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtPhone"
+                                                                    ErrorMessage="Enter Phone Number"
+                                                                    Display="Dynamic">
+                                                                    </asp:RequiredFieldValidator>
+                                                                <asp:CustomValidator ID="valPhone" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtPhone"
+                                                                    ErrorMessage=""
+                                                                    Display="Dynamic"
+                                                                    OnServerValidate="valPhone_ServerValidate">
+                                                                    </asp:CustomValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidatorPhone" runat="server"
+                                                                    ControlToValidate="txtPhone"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[0-9 ]*$"
+                                                                    ErrorMessage="Enter Numbers"
+                                                                    Display="Dynamic">
+                                                                </asp:RegularExpressionValidator>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label>Address</label>
+                                                                <asp:TextBox ID="txtAddress" CssClass="form-control" placeholder="Enter Address" TextMode="MultiLine" runat="server" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator9" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtAddress"
+                                                                    ErrorMessage="Enter Address"
+                                                                    Display="Dynamic">
+                                                                </asp:RequiredFieldValidator>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <!-- Role & Username -->
+                                                    <div class="form-group remove-border">
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6 ">
+                                                                <div>
+                                                                    <label>Role</label>
+                                                                    <asp:DropDownList ID="ddlRole" CssClass="custom-select form-control" runat="server" OnSelectedIndexChanged="ddlRole_SelectedIndexChanged" AutoPostBack="true">
+                                                                        <asp:ListItem Text="-- Select Role --" Value="0" Selected="True" />
+                                                                    </asp:DropDownList>
+                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" runat="server"
+                                                                        ControlToValidate="ddlRole"
+                                                                        ErrorMessage="Select Role"
+                                                                        InitialValue="0"
+                                                                        Display="Dynamic">
+                                                                 </asp:RequiredFieldValidator>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label>Username</label>
+                                                                <asp:TextBox ID="txtUserName" CssClass="form-control" placeholder="Username" BackColor="White" ReadOnly="true" runat="server" />
+                                                            </div>
+                                                            <asp:TextBox ID="txtPassword" CssClass="form-control" Visible="false" placeholder="Password" BackColor="White" ReadOnly="true" runat="server" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="button-pane content-box text-center pad20A mrg20T">
+                                                        <button id="btnSaveDetails" type="button" class="btn btn-alt btn-hover btn-primary float-right tooltip-button" onserverclick="btnSaveDetails_ServerClick" runat="server" causesvalidation="true" data-placement="top" title="Save Details">
+                                                            <span>Save Details</span>
+                                                            <i class="glyph-icon icon-save"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="content-box">
+                                    <h3 class="content-box-header bg-white text-center">Select Picture</h3>
+                                    <div class="form-horizontal bordered-row">
+                                        <div class="form-group remove-border pad20T pad15B">
+                                            <div class="text-center">
+                                                <asp:Image ID="imgUser" CssClass="user-image" runat="server" Height="250px" Width="250px" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group remove-border pad0T mrg25B">
+                                            <div class="col-sm-10 col-sm-offset-1 text-center">
+                                                <a id="btnSelect" href="#uploadPicture" data-placement="top" title="Select Picture" data-toggle="modal" class="btn btn-alt btn-hover btn-info tooltip-button" runat="server">
+                                                    <span>Select Picture</span>
+                                                    <i class="glyph-icon icon-file-photo-o"></i>
+                                                </a>
+                                                <a id="btnChange" visible="false" href="#uploadPicture" data-placement="top" title="Change Picture" data-toggle="modal" class="btn btn-info tooltip-button" runat="server">Change Picture</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -254,6 +259,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="uploadPicture" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

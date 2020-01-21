@@ -57,119 +57,122 @@
                                             <div class="col-sm-12">
                                                 <div class="form-horizontal bordered-row">
                                                     <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Product Name:</label>
-                                                        <div class="col-sm-6">
-                                                            <asp:TextBox ID="txtProductName" CssClass="form-control" placeholder="Enter Product Name" runat="server" />
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ForeColor="Red" runat="server"
-                                                                ControlToValidate="txtProductName"
-                                                                ErrorMessage="Enter Product Name"
-                                                                Display="Dynamic">
-                                                            </asp:RequiredFieldValidator>
-                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server"
-                                                                ControlToValidate="txtProductName"
-                                                                ForeColor="Red"
-                                                                ValidationExpression="[a-zA-Z / -]*$"
-                                                                ErrorMessage="Enter Aplhabets"
-                                                                Display="Dynamic">
-                                                            </asp:RegularExpressionValidator>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Category:</label>
-                                                        <div class="col-sm-6 ">
-                                                            <div>
-                                                                <asp:DropDownList ID="ddlCategory" CssClass="custom-select form-control" runat="server">
-                                                                    <asp:ListItem Text="-- Select Category --" Value="0" Selected="True" />
-                                                                </asp:DropDownList>
-                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ForeColor="Red" runat="server"
-                                                                    ControlToValidate="ddlCategory"
-                                                                    ErrorMessage="Select Category"
-                                                                    InitialValue="0"
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6">
+                                                                <label>Name</label>
+                                                                <asp:TextBox ID="txtProductName" CssClass="form-control" placeholder="Enter Product Name" runat="server" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtProductName"
+                                                                    ErrorMessage="Enter Product Name"
                                                                     Display="Dynamic">
                                                                 </asp:RequiredFieldValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server"
+                                                                    ControlToValidate="txtProductName"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[a-zA-Z / -]*$"
+                                                                    ErrorMessage="Enter Aplhabets"
+                                                                    Display="Dynamic">
+                                                                </asp:RegularExpressionValidator>
+                                                            </div>
+                                                            <div class="col-sm-6 ">
+                                                                <div>
+                                                                    <label>Category</label>
+                                                                    <asp:DropDownList ID="ddlCategory" CssClass="custom-select form-control" runat="server">
+                                                                        <asp:ListItem Text="-- Select Category --" Value="0" Selected="True" />
+                                                                    </asp:DropDownList>
+                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ForeColor="Red" runat="server"
+                                                                        ControlToValidate="ddlCategory"
+                                                                        ErrorMessage="Select Category"
+                                                                        InitialValue="0"
+                                                                        Display="Dynamic">
+                                                                    </asp:RequiredFieldValidator>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Product Quantity:</label>
-                                                        <div class="col-sm-6">
-                                                            <asp:TextBox ID="txtQuantity" CssClass="form-control" placeholder="Enter Product Quantity" MaxLength="3" runat="server" />
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ForeColor="Red" runat="server"
-                                                                ControlToValidate="txtQuantity"
-                                                                ErrorMessage="Enter Product Quantity"
-                                                                Display="Dynamic">
-                                                            </asp:RequiredFieldValidator>
-                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidatorPhone" runat="server"
-                                                                ControlToValidate="txtQuantity"
-                                                                ForeColor="Red"
-                                                                ValidationExpression="[0-9 ]*$"
-                                                                ErrorMessage="Enter Numbers"
-                                                                Display="Dynamic">
-                                                            </asp:RegularExpressionValidator>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Cost Price:</label>
-                                                        <div class="col-sm-6">
-                                                            <div class="input-prepend input-group">
-                                                                <span class="input-group-addon">GHȻ</span>
-                                                                <asp:TextBox ID="txtCostPrice" CssClass="form-control" placeholder="Enter Cost Price" MaxLength="10" runat="server" />
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6">
+                                                                <label>Quantity</label>
+                                                                <asp:TextBox ID="txtQuantity" CssClass="form-control" placeholder="Enter Product Quantity" MaxLength="3" runat="server" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtQuantity"
+                                                                    ErrorMessage="Enter Product Quantity"
+                                                                    Display="Dynamic">
+                                                                </asp:RequiredFieldValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidatorPhone" runat="server"
+                                                                    ControlToValidate="txtQuantity"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[0-9 ]*$"
+                                                                    ErrorMessage="Enter Numbers"
+                                                                    Display="Dynamic">
+                                                              </asp:RegularExpressionValidator>
                                                             </div>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" runat="server"
-                                                                ControlToValidate="txtCostPrice"
-                                                                ErrorMessage="Enter Cost Price"
-                                                                Display="Dynamic">
-                                                            </asp:RequiredFieldValidator>
-                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"
-                                                                ControlToValidate="txtCostPrice"
-                                                                ForeColor="Red"
-                                                                ValidationExpression="[0-9 .]*$"
-                                                                ErrorMessage="Enter Numbers"
-                                                                Display="Dynamic">
-                                                            </asp:RegularExpressionValidator>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Selling Price:</label>
-                                                        <div class="col-sm-6">
-                                                            <div class="input-prepend input-group">
-                                                                <span class="input-group-addon">GHȻ</span>
-                                                                <asp:TextBox ID="txtSellingPrice" CssClass="form-control" placeholder="Enter Selling Price" MaxLength="10" runat="server" />
+                                                            <div class="col-sm-6">
+                                                                <label>Cost Price</label>
+                                                                <div class="input-prepend input-group">
+                                                                    <span class="input-group-addon">GHȻ</span>
+                                                                    <asp:TextBox ID="txtCostPrice" CssClass="form-control" placeholder="Enter Cost Price" MaxLength="10" runat="server" />
+                                                                </div>
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtCostPrice"
+                                                                    ErrorMessage="Enter Cost Price"
+                                                                    Display="Dynamic">
+                                                             </asp:RequiredFieldValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"
+                                                                    ControlToValidate="txtCostPrice"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[0-9 .]*$"
+                                                                    ErrorMessage="Enter Numbers"
+                                                                    Display="Dynamic">
+                                                             </asp:RegularExpressionValidator>
                                                             </div>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ForeColor="Red" runat="server"
-                                                                ControlToValidate="txtSellingPrice"
-                                                                ErrorMessage="Enter Selling Price"
-                                                                Display="Dynamic">
-                                                            </asp:RequiredFieldValidator>
-                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server"
-                                                                ControlToValidate="txtSellingPrice"
-                                                                ForeColor="Red"
-                                                                ValidationExpression="[0-9 .]*$"
-                                                                ErrorMessage="Enter Numbers"
-                                                                Display="Dynamic">
-                                                            </asp:RegularExpressionValidator>
                                                         </div>
                                                     </div>
                                                     <div class="form-group remove-border">
-                                                        <label class="col-sm-4 control-label">Min Product Level:</label>
-                                                        <div class="col-sm-6">
-                                                            <asp:TextBox ID="txtMinLevel" CssClass="form-control" placeholder="Enter Min Product Level" runat="server" />
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ForeColor="Red" runat="server"
-                                                                ControlToValidate="txtMinLevel"
-                                                                ErrorMessage="Enter Min Product Level"
-                                                                Display="Dynamic">
-                                                            </asp:RequiredFieldValidator>
-                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server"
-                                                                ControlToValidate="txtMinLevel"
-                                                                ForeColor="Red"
-                                                                ValidationExpression="[0-9 ]*$"
-                                                                ErrorMessage="Enter Numbers"
-                                                                Display="Dynamic">
-                                                            </asp:RegularExpressionValidator>
+                                                        <div class="col-sm-12">
+                                                            <div class="col-sm-6">
+                                                                <label>Selling Price</label>
+                                                                <div class="input-prepend input-group">
+                                                                    <span class="input-group-addon">GHȻ</span>
+                                                                    <asp:TextBox ID="txtSellingPrice" CssClass="form-control" placeholder="Enter Selling Price" MaxLength="10" runat="server" />
+                                                                </div>
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtSellingPrice"
+                                                                    ErrorMessage="Enter Selling Price"
+                                                                    Display="Dynamic">
+                                                             </asp:RequiredFieldValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server"
+                                                                    ControlToValidate="txtSellingPrice"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[0-9 .]*$"
+                                                                    ErrorMessage="Enter Numbers"
+                                                                    Display="Dynamic">
+                                                              </asp:RegularExpressionValidator>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <label>Stock Level</label>
+                                                                <asp:TextBox ID="txtMinLevel" CssClass="form-control" placeholder="Enter Minimum Stock Level" runat="server" />
+                                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ForeColor="Red" runat="server"
+                                                                    ControlToValidate="txtMinLevel"
+                                                                    ErrorMessage="Enter Minimum Stock Level"
+                                                                    Display="Dynamic">
+                                                                </asp:RequiredFieldValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server"
+                                                                    ControlToValidate="txtMinLevel"
+                                                                    ForeColor="Red"
+                                                                    ValidationExpression="[0-9 ]*$"
+                                                                    ErrorMessage="Enter Numbers"
+                                                                    Display="Dynamic">
+                                                                </asp:RegularExpressionValidator>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="button-pane content-box text-center pad20A mrg20T">
-                                                        <asp:Button ID="btnSaveProduct" CssClass="btn btn-success float-right" Text="Save Details" OnClick="btnSaveProduct_Click" runat="server" />
+                                                        <button id="btnSaveDetails" type="button" class="btn btn-alt btn-hover btn-primary float-right tooltip-button" onserverclick="btnSaveDetails_ServerClick" runat="server" causesvalidation="true" data-placement="top" title="Save Details">
+                                                            <span>Save Details</span>
+                                                            <i class="glyph-icon icon-save"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

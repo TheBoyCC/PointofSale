@@ -13,6 +13,42 @@ namespace PointSaleSystemWeb.manager {
     public partial class add_order {
         
         /// <summary>
+        /// lblDelItemID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDelItemID;
+        
+        /// <summary>
+        /// lblDelOrderNum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDelOrderNum;
+        
+        /// <summary>
+        /// lblDelOrderID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDelOrderID;
+        
+        /// <summary>
+        /// lblDelProductName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDelProductName;
+        
+        /// <summary>
         /// lblChangePass control.
         /// </summary>
         /// <remarks>
@@ -220,24 +256,6 @@ namespace PointSaleSystemWeb.manager {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
         
         /// <summary>
-        /// txtQuantity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtQuantity;
-        
-        /// <summary>
-        /// txtUnitPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUnitPrice;
-        
-        /// <summary>
         /// txtOrderQty control.
         /// </summary>
         /// <remarks>
@@ -283,6 +301,15 @@ namespace PointSaleSystemWeb.manager {
         protected global::System.Web.UI.WebControls.TextBox txtCost;
         
         /// <summary>
+        /// divProduct control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divProduct;
+        
+        /// <summary>
         /// btnAddToCart control.
         /// </summary>
         /// <remarks>
@@ -290,6 +317,15 @@ namespace PointSaleSystemWeb.manager {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton btnAddToCart;
+        
+        /// <summary>
+        /// boxHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl boxHeader;
         
         /// <summary>
         /// divOrder control.

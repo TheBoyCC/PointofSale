@@ -93,7 +93,7 @@
                 <div id="page-content-wrapper">
                     <div id="page-content">
                         <div class="row">
-                            <div class="col-sm-5 col-sm-offset-4">
+                            <div class="col-sm-4">
                                 <div id="div_receipt" class="profile-box content-box">
                                     <asp:Panel ID="alertErrorPanel" Display="Dynamic" Visible="false" Height="60px" runat="server">
                                         <div class="alert alert-close alert-danger">
@@ -134,7 +134,7 @@
                                                     <asp:Label ID="lblDate" Text="12/11/2018" runat="server" />
                                                 </div>
 
-                                                <div class="col-xs-5 col-xs-offset-4 pad5B font-size-14" runat="server">
+                                                <div class="col-xs-5 float-right pad5B font-size-14" runat="server">
                                                     <asp:Label ID="lblCustomer" Text="CUSTOMER: Christian Ofori" CssClass="float-right" runat="server" />
                                                 </div>
                                             </div>

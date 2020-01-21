@@ -189,6 +189,7 @@ namespace PointSaleSystemWeb.manager
             }
         }
 
+        #region TODO
         //TODO
         private void readUpdateSale()
         {
@@ -242,16 +243,20 @@ namespace PointSaleSystemWeb.manager
             cmd.ExecuteNonQuery();
             
         }
+        #endregion
 
         //UPDATE PRODUCT
         private void updateProduct()
         {
-            int sta = Convert.ToInt32(lblStatus.Text);
+            int status = Convert.ToInt32(lblStatus.Text);
             connection();
             con.Open();
-            cmd = new MySqlCommand("UPDATE product SET status = @status WHERE product_id = '" + lblProductID.Text + "'", con);
+
+            cmd = new MySqlCommand("UPDATE product SET status = @status, modified_date = @modified_date WHERE product_id = '" + lblProductID.Text + "'", con);
             cmd.Connection = con;
-            cmd.Parameters.AddWithValue("@status", sta);
+
+            cmd.Parameters.AddWithValue("@status", status);
+            cmd.Parameters.AddWithValue("@modified_date", DateTime.Now);
 
             cmd.ExecuteNonQuery();
 
@@ -275,6 +280,7 @@ namespace PointSaleSystemWeb.manager
             }
             con.Close();
         }
+
         protected void clsAlertSuccess_ServerClick(object sender, EventArgs e)
         {
             Response.Redirect("~/manager/manage-product.aspx");
