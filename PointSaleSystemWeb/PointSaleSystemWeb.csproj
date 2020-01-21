@@ -43,11 +43,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+    <Reference Include="MySql.Data, Version=6.8.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Installer for Windows\MySql.Data.dll</HintPath>
+      <HintPath>..\packages\MySql.Data.6.8.8\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data.Entity, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -69,8 +68,10 @@
     <Content Include="admin\add-user.aspx" />
     <Content Include="admin\admin-dashboard.aspx" />
     <Content Include="admin\default.aspx" />
+    <Content Include="admin\view-user.aspx" />
     <Content Include="assets\image-resources\logo.jpg" />
     <Content Include="assets\image-resources\logo1.png" />
+    <Content Include="forms-elements.html" />
     <Content Include="manager\settings.aspx" />
     <Content Include="manager\edit-user.aspx" />
     <Content Include="change-password.aspx" />
@@ -106,11 +107,17 @@
     <Content Include="manager\category.aspx" />
     <Content Include="manager\default.aspx" />
     <Content Include="manager\manager.Master" />
+    <Content Include="manager\view-order-details.aspx" />
     <Content Include="sales\add-order.aspx" />
     <Content Include="sales\default.aspx" />
+    <Content Include="sales\delete-order-item.aspx" />
+    <Content Include="sales\edit-order-item.aspx" />
+    <Content Include="sales\receipt.aspx" />
     <Content Include="sales\sales.Master" />
     <Content Include="admin\admin.Master" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\theboy.pubxml" />
+    <Content Include="References\mysql.data.6.8.8.nupkg" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -555,6 +562,13 @@
     <Compile Include="admin\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="admin\view-user.aspx.cs">
+      <DependentUpon>view-user.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\view-user.aspx.designer.cs">
+      <DependentUpon>view-user.aspx</DependentUpon>
+    </Compile>
     <Compile Include="manager\settings.aspx.cs">
       <DependentUpon>settings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -690,6 +704,13 @@
     <Compile Include="manager\add-inventory.aspx.designer.cs">
       <DependentUpon>add-inventory.aspx</DependentUpon>
     </Compile>
+    <Compile Include="manager\view-order-details.aspx.cs">
+      <DependentUpon>view-order-details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="manager\view-order-details.aspx.designer.cs">
+      <DependentUpon>view-order-details.aspx</DependentUpon>
+    </Compile>
     <Compile Include="manager\view-order.aspx.cs">
       <DependentUpon>view-order.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -717,6 +738,27 @@
     </Compile>
     <Compile Include="sales\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sales\delete-order-item.aspx.cs">
+      <DependentUpon>delete-order-item.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sales\delete-order-item.aspx.designer.cs">
+      <DependentUpon>delete-order-item.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sales\edit-order-item.aspx.cs">
+      <DependentUpon>edit-order-item.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sales\edit-order-item.aspx.designer.cs">
+      <DependentUpon>edit-order-item.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sales\receipt.aspx.cs">
+      <DependentUpon>receipt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sales\receipt.aspx.designer.cs">
+      <DependentUpon>receipt.aspx</DependentUpon>
     </Compile>
     <Compile Include="sales\sales.Master.cs">
       <DependentUpon>sales.Master</DependentUpon>

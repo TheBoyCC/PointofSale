@@ -206,7 +206,11 @@ namespace PointSaleSystemWeb
 
         protected void btnSignIn_Click(object sender, EventArgs e)
         {
-            login();
+            if (Page.IsValid)
+            {
+                login();
+            }
+            
         }
     }
 }
